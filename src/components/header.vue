@@ -2,8 +2,7 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="header-left">
-            <img class="logo" src="../assets/img/logo.svg" alt="" />
-            <div class="web-title">后台管理系统</div>
+            <div class="web-title">学生任务发布系统</div>
             <div class="collapse-btn" @click="collapseChage">
                 <el-icon v-if="sidebar.collapse">
                     <Expand />
@@ -16,7 +15,7 @@
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 用户头像 -->
-                <el-avatar class="user-avator" :size="30" :src="imgurl" />
+                   <el-avatar class="user-avator" :size="30" :src="imgurl" />
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
