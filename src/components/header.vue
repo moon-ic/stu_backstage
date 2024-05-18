@@ -2,6 +2,7 @@
     <div class="header">
         <!-- 折叠按钮 -->
         <div class="header-left">
+            <img class="logo mr10" src="../assets/img/logo.svg" alt="" />
             <div class="web-title">学生任务发布系统</div>
             <div class="collapse-btn" @click="collapseChage">
                 <el-icon v-if="sidebar.collapse">

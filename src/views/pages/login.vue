@@ -3,9 +3,18 @@
         <div class="login-container">
             <div class="login-header">
                 <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
-                <div class="login-title">后台管理系统</div>
+                <div class="login-title">学生任务发布系统</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
+                  <el-form-item prop="status">
+                    <el-input v-model="param.status" placeholder="身份">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="用户名">
                         <template #prepend>
@@ -54,6 +63,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 interface LoginInfo {
     username: string;
     password: string;
+    status:number;
 }
 
 const lgStr = localStorage.getItem('login-param');
@@ -64,17 +74,25 @@ const router = useRouter();
 const param = reactive<LoginInfo>({
     username: defParam ? defParam.username : '',
     password: defParam ? defParam.password : '',
+    status: defParam ? defParam.status : '',
 });
 
 const rules: FormRules = {
     username: [
         {
             required: true,
-            message: '请输入用户名',
+            message: '请输入您的用户名',
             trigger: 'blur',
         },
     ],
-    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    password: [{ required: true, message: '请输入您的密码', trigger: 'blur' }],
+    status:[
+        {
+            required: true,
+            message: '请按照数字填入身份：1（管理员），2（发布者），3（执行者）',
+            trigger: 'blur',
+        }
+    ]
 };
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
