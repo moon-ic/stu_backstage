@@ -6,8 +6,8 @@
                 <div class="login-title">后台管理系统</div>
             </div>
             <el-form :model="param" :rules="rules" ref="register" size="large">
-                <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="用户名">
+                <el-form-item prop="userstatus">
+                    <el-input v-model="param.status" placeholder="身份">
                         <template #prepend>
                             <el-icon>
                                 <User />
@@ -15,11 +15,11 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <el-form-item prop="email">
-                    <el-input v-model="param.email" placeholder="邮箱">
+                <el-form-item prop="username">
+                    <el-input v-model="param.username" placeholder="用户名">
                         <template #prepend>
                             <el-icon>
-                                <Message />
+                                <User />
                             </el-icon>
                         </template>
                     </el-input>
@@ -57,7 +57,7 @@ const router = useRouter();
 const param = reactive<Register>({
     username: '',
     password: '',
-    email: '',
+    status:''
 });
 
 const rules: FormRules = {
@@ -69,7 +69,13 @@ const rules: FormRules = {
         },
     ],
     password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-    email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
+    userstatus:[
+        {
+            required: true,
+            message: '请按照身份填入数字：0（管理员），1（发布者），2（执行者）',
+            trigger: 'blur',
+        }
+    ]
 };
 const register = ref<FormInstance>();
 const submitForm = (formEl: FormInstance | undefined) => {
