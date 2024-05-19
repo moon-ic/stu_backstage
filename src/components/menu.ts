@@ -26,7 +26,7 @@ export const menuData: Menus[] = [
 		id: "02",
 		title: "发布者管理",
 		index: "1-2",
-		icon: "HomeFilled",
+		icon: "Guide",
 		children: [
 			{
 				id: "021",
@@ -40,7 +40,7 @@ export const menuData: Menus[] = [
 		id: "03",
 		title: "执行者管理",
 		index: "1-3",
-		icon: "HomeFilled",
+		icon: "Guide",
 		children: [
 			{
 				id: "031",
@@ -54,7 +54,7 @@ export const menuData: Menus[] = [
 		id: "04",
 		title: "任务管理",
 		index: "1-4",
-		icon: "HomeFilled",
+		icon: "Guide",
 		children: [
 			{
 				id: "041",
@@ -209,13 +209,6 @@ export const menuData: Menus[] = [
 				title: "待审核任务列表"
 			}
 		]
-	},
-	{
-		id: "5",
-		icon: "Guide",
-		index: "/icon",
-		title: "图标",
-		permiss: "5"
 	},
 	{
 		id: "7",

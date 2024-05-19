@@ -19,7 +19,6 @@ export const usePermissStore = defineStore("permiss", {
 				"04",
 				"041",
 				"042",
-				"5",
 				"7"
 			],
 			publisher: [
@@ -34,7 +33,6 @@ export const usePermissStore = defineStore("permiss", {
 				"14",
 				"141",
 				"142",
-				"5",
 				"7"
 			],
 			performer: [
@@ -49,7 +47,6 @@ export const usePermissStore = defineStore("permiss", {
 				"24",
 				"241",
 				"242",
-				"5",
 				"7"
 			]
 		};
