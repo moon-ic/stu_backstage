@@ -63,7 +63,7 @@ import type { FormInstance, FormRules } from 'element-plus';
 interface LoginInfo {
     username: string;
     password: string;
-    status:number;
+    status:string;
 }
 
 const lgStr = localStorage.getItem('login-param');
@@ -102,6 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         if (valid) {
             ElMessage.success('登录成功');
             localStorage.setItem('vuems_name', param.username);
+            localStorage.setItem('user_status', param.status);
             const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
             permiss.handleSet(keys);
             router.push('/');

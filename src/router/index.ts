@@ -292,6 +292,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 	NProgress.start();
 	const role = localStorage.getItem("vuems_name");
+	const status = localStorage.getItem("user_status");
 	const permiss = usePermissStore();
 
 	if (!role && to.meta.noAuth !== true) {
