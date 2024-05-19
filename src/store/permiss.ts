@@ -19,6 +19,7 @@ export const usePermissStore = defineStore("permiss", {
 				"04",
 				"041",
 				"042",
+				"5",
 				"7"
 			],
 			publisher: [
