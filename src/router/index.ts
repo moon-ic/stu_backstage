@@ -18,7 +18,7 @@ const routes: RouteRecordRaw[] = [
 				path: "/dashboard",
 				name: "dashboard",
 				meta: {
-					title: "系统首页",
+					title: "管理员系统首页",
 					noAuth: true
 				},
 				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
 					title: "执行者管理",
 					permiss: "11"
 				},
-				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/list_perform.vue")
+				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/admin/list_perform.vue")
 			},
 			{
 				path: "/list_publish",
@@ -39,7 +39,7 @@ const routes: RouteRecordRaw[] = [
 					title: "发布者管理",
 					permiss: "12"
 				},
-				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/list_publish.vue")
+				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/admin/list_publish.vue")
 			},
 			{
 				path: "/system-task-classfy",
@@ -48,7 +48,7 @@ const routes: RouteRecordRaw[] = [
 					title: "任务分类列表",
 					permiss: "13"
 				},
-				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/task_classfy.vue")
+				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_classfy.vue")
 			},
 			{
 				path: "/system-task-wait",
@@ -57,7 +57,7 @@ const routes: RouteRecordRaw[] = [
 					title: "待审核任务列表",
 					permiss: "14"
 				},
-				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/task_wait.vue")
+				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_wait.vue")
 			},
 			{
 				path: "/system-task-display",
@@ -66,7 +66,7 @@ const routes: RouteRecordRaw[] = [
 					title: "任务列表",
 					permiss: "15"
 				},
-				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/task_display.vue")
+				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_display.vue")
 			},
 			{
 				path: "/table",
