@@ -7,16 +7,26 @@ import "nprogress/nprogress.css";
 const routes: RouteRecordRaw[] = [
 	{
 		path: "/",
-		redirect: "/dashboard"
+		redirect: (to) => {
+			const status = localStorage.getItem("user_status");
+			if (status === "0") {
+				return "/dashboard0";
+			} else if (status === "1") {
+				return "/dashboard1";
+			} else {
+				return "/dashboard2";
+			}
+		}
 	},
 	{
 		path: "/",
 		name: "Home",
 		component: Home,
 		children: [
+			// 管理员
 			{
-				path: "/dashboard",
-				name: "dashboard",
+				path: "/dashboard0",
+				name: "dashboard0",
 				meta: {
 					title: "管理员系统首页",
 					noAuth: true
@@ -24,29 +34,39 @@ const routes: RouteRecordRaw[] = [
 				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
 			},
 			{
-				path: "/list_perform",
-				name: "list_perform",
+				path: "/system-task-display",
+				name: "system-task-display",
 				meta: {
-					title: "执行者管理",
-					permiss: "11"
+					title: "任务列表",
+					permiss: "01"
 				},
-				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/admin/list_perform.vue")
+				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_display.vue")
 			},
 			{
 				path: "/list_publish",
 				name: "list_publish",
 				meta: {
 					title: "发布者管理",
-					permiss: "12"
+					permiss: "02"
 				},
 				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/admin/list_publish.vue")
 			},
+			{
+				path: "/list_perform",
+				name: "list_perform",
+				meta: {
+					title: "执行者管理",
+					permiss: "03"
+				},
+				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/admin/list_perform.vue")
+			},
+
 			{
 				path: "/system-task-classfy",
 				name: "system-task-classfy",
 				meta: {
 					title: "任务分类列表",
-					permiss: "13"
+					permiss: "04"
 				},
 				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_classfy.vue")
 			},
@@ -55,19 +75,34 @@ const routes: RouteRecordRaw[] = [
 				name: "system-task-wait",
 				meta: {
 					title: "待审核任务列表",
-					permiss: "14"
+					permiss: "04"
 				},
 				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_wait.vue")
 			},
+
+			// 发布者
 			{
-				path: "/system-task-display",
-				name: "system-task-display",
+				path: "/dashboard1",
+				name: "dashboard1",
 				meta: {
-					title: "任务列表",
-					permiss: "15"
+					title: "发布者系统首页",
+					noAuth: true
 				},
-				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_display.vue")
+				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
 			},
+
+			// 执行者
+			{
+				path: "/dashboard2",
+				name: "dashboard2",
+				meta: {
+					title: "执行者系统首页",
+					noAuth: true
+				},
+				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
+			},
+
+			// else
 			{
 				path: "/table",
 				name: "basetable",

@@ -55,8 +55,8 @@ export const usePermissStore = defineStore("permiss", {
 		};
 		const userStatus = localStorage.getItem("user_status");
 		return {
-			// status:1（管理员），2（发布者），3（执行者）
-			key: (userStatus == "1" ? defaultList.admin : userStatus == "2" ? defaultList.publisher : defaultList.performer) as string[],
+			// status:0（管理员），1（发布者），2（执行者）
+			key: (userStatus == "0" ? defaultList.admin : userStatus == "1" ? defaultList.publisher : defaultList.performer) as string[],
 			defaultList
 		};
 	},

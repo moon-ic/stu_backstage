@@ -89,7 +89,7 @@ const rules: FormRules = {
     status:[
         {
             required: true,
-            message: '请按照数字填入身份：1（管理员），2（发布者），3（执行者）',
+            message: '请按照身份填入数字：0（管理员），1（发布者），2（执行者）',
             trigger: 'blur',
         }
     ]

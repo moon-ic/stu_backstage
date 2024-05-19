@@ -5,7 +5,7 @@ export const menuData: Menus[] = [
 	{
 		id: "00",
 		title: "首页",
-		index: "/dashboard",
+		index: "/dashboard0",
 		icon: "Odometer"
 	},
 	{
@@ -75,7 +75,7 @@ export const menuData: Menus[] = [
 	{
 		id: "10",
 		title: "首页",
-		index: "/dashboard",
+		index: "/dashboard1",
 		icon: "Odometer"
 	},
 	{
@@ -145,7 +145,7 @@ export const menuData: Menus[] = [
 	{
 		id: "20",
 		title: "首页",
-		index: "/dashboard",
+		index: "/dashboard2",
 		icon: "Odometer"
 	},
 	{
