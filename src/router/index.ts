@@ -291,11 +291,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 	NProgress.start();
-	const role = localStorage.getItem("vuems_name");
 	const status = localStorage.getItem("user_status");
 	const permiss = usePermissStore();
 
-	if (!role && to.meta.noAuth !== true) {
+	if (!status && to.meta.noAuth !== true) {
 		next("/login");
 	} else if (typeof to.meta.permiss == "string" && !permiss.key.includes(to.meta.permiss)) {
 		// 如果没有权限，则进入403

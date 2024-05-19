@@ -8,49 +8,55 @@ export const usePermissStore = defineStore("permiss", {
 	state: () => {
 		const defaultList: ObjectList = {
 			admin: [
-				"0",
-				"1",
-				"11",
-				"12",
-				"13",
-				"14",
-				"15",
-				"2",
-				"21",
-				"22",
-				"23",
-				"24",
-				"25",
-				"26",
-				"27",
-				"28",
-				"29",
-				"291",
-				"292",
-				"3",
-				"31",
-				"32",
-				"33",
-				"34",
-				"4",
-				"41",
-				"42",
+				// 管理员
+				"00",
+				"01",
+				"011",
+				"02",
+				"021",
+				"03",
+				"031",
+				"04",
+				"041",
+				"042",
 				"5",
-				"7",
-				"6",
-				"61",
-				"62",
-				"63",
-				"64",
-				"65",
-				"66"
+				"7"
 			],
-			user: ["0", "1", "11", "12", "13", "14", "15"]
+			publisher: [
+				// 发布者
+				"10",
+				"11",
+				"111",
+				"12",
+				"121",
+				"13",
+				"131",
+				"14",
+				"141",
+				"142",
+				"5",
+				"7"
+			],
+			performer: [
+				// 执行者
+				"20",
+				"21",
+				"211",
+				"22",
+				"221",
+				"23",
+				"231",
+				"24",
+				"241",
+				"242",
+				"5",
+				"7"
+			]
 		};
-		const username = localStorage.getItem("vuems_name");
-		console.log(username);
+		const userStatus = localStorage.getItem("user_status");
 		return {
-			key: (username == "admin" ? defaultList.admin : defaultList.user) as string[],
+			// status:1（管理员），2（发布者），3（执行者）
+			key: (userStatus == "1" ? defaultList.admin : userStatus == "2" ? defaultList.publisher : defaultList.performer) as string[],
 			defaultList
 		};
 	},
