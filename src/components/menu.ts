@@ -139,6 +139,12 @@ export const menuData: Menus[] = [
 		icon: "HomeFilled",
 		children: [
 			{
+				id: "224",
+				pid: "3",
+				index: "/choose_task",
+				title: "选择任务"
+			},
+			{
 				id: "221",
 				pid: "3",
 				index: "/done_task",

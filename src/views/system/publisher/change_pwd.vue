@@ -1,26 +1,27 @@
 <template>
     <div class="password-change-form">
-      <h2>ĞŞ¸ÄÃÜÂë</h2>
+      <h2>ä¿®æ”¹å¯†ç </h2>
       <form @submit.prevent="changePassword">
         <div class="form-group">
-          <label for="oldPassword">¾ÉÃÜÂë:</label>
+          <label for="oldPassword">è¯·è¾“å…¥å¯†ç </label>
           <input type="password" id="oldPassword" v-model="oldPassword" required>
         </div>
         <div class="form-group">
-          <label for="newPassword">ĞÂÃÜÂë:</label>
+          <label for="newPassword">æ–°å¯†ç </label>
           <input type="password" id="newPassword" v-model="newPassword" required>
         </div>
         <div class="form-group">
-          <label for="confirmPassword">È·ÈÏĞÂÃÜÂë:</label>
+          <label for="confirmPassword">å†æ¬¡ç¡®è®¤æ–°å¯†ç ï¼š</label>
           <input type="password" id="confirmPassword" v-model="confirmPassword" required>
         </div>
-        <button type="submit">È·ÈÏĞŞ¸Ä</button>
+        <button type="submit">ä¿å­˜</button>
         <div v-if="error" class="error">{{ error }}</div>
       </form>
     </div>
   </template>
   
   <script>
+  import {updatePwd} from '@/api/publisher/index'
   export default {
     data() {
       return {
@@ -32,21 +33,22 @@
     },
     methods: {
       changePassword() {
-        // ×öÒ»Ğ©ÃÜÂëÑéÖ¤£¬ÀıÈçÈ·ÈÏĞÂÃÜÂëÓëĞÂÃÜÂëÆ¥ÅäµÈ
         if (this.newPassword !== this.confirmPassword) {
-          this.error = 'ĞÂÃÜÂëÓëÈ·ÈÏÃÜÂë²»Æ¥Åä';
+          this.error = 'ä¿®æ”¹å¤±è´¥';
           return;
         }
-  
-        // ·¢ËÍĞŞ¸ÄÃÜÂëÇëÇó
-        // ÕâÀï¿ÉÒÔÊ¹ÓÃÄãµÄAPI·şÎñ·¢ËÍÇëÇóÀ´ÑéÖ¤¾ÉÃÜÂë²¢ĞŞ¸ÄĞÂÃÜÂë
-  
-        // Çå¿Õ±íµ¥²¢ÏÔÊ¾³É¹¦ÏûÏ¢
+        updatePwd(this.newPassword,this.oldPassword)
+            .then(response=>{
+              console.log(response.data);
+              if(response.data.code === 1){
+                sessionStorage.setItem("publisher",)
+              }
+            })
         this.oldPassword = '';
         this.newPassword = '';
         this.confirmPassword = '';
-        this.error = ''; // Çå³ı´íÎóÏûÏ¢
-        alert('ÃÜÂëĞŞ¸Ä³É¹¦£¡');
+        this.error = '';
+        alert('æ›´æ–°æˆåŠŸ');
       }
     }
   };
