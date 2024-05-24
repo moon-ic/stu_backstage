@@ -80,6 +80,7 @@ const routes: RouteRecordRaw[] = [
 				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_wait.vue")
 			},
 
+			//ToDo
 			// 发布者
 			{
 				path: "/dashboard1",
@@ -89,7 +90,47 @@ const routes: RouteRecordRaw[] = [
 					noAuth: true
 				},
 				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
+				// component: Home,
 			},
+			
+			{
+				path:"/manage_task",
+				name:"manage_task",
+				meta:{
+					title:"管理任务",
+					noAuth:true
+				},
+				component:() => import("../views/system/publisher/manage_task.vue"),
+			},
+			{
+				path:"/publish_task",
+				name:"publish_task",
+				meta:{
+					title:"发布任务",
+					noAuth:true
+				},
+				component:() => import(/* webpackChunkName: "dashboard" */"../views/system/publisher/publish_task.vue"),
+			},
+			{
+				path: "/publisher_info",
+				name: "publisher_info",
+				meta: {
+					title: "发布者基本信息",
+					noAuth: true
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/publisher/base_info.vue" ),
+			},
+			{
+				path: "/publisher_pwd",
+				name: "publisher_pwd",
+				meta: {
+					title: "发布者修改密码",
+					noAuth: true
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/publisher/change_pwd.vue" ),
+			},
+			
+			
 
 			// 执行者
 			{
@@ -100,6 +141,69 @@ const routes: RouteRecordRaw[] = [
 					noAuth: true
 				},
 				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
+			},
+			{
+				path: "/mystar",
+				name: "mystar",
+				meta: {
+					title: "我的收藏",
+					noAuth: true
+				},
+				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/performer/star.vue")
+			},
+			{
+				path:"/choose_task",
+				name:"choose_task",
+				meta:{
+					title:"选择任务",
+					noAuth:true
+				},
+				component:() => import("../views/system/performer/choose_task.vue")
+			},
+			{
+				path:"/done_task",
+				name:"done_task",
+				meta:{
+					title:"已完成的任务",
+					noAuth:true
+				},
+				component:() => import("../views/system/performer/done_task.vue")
+			},
+			{
+				path:"/undo_task",
+				name:"/undo_task",
+				meta:{
+					title:"未完成的任务",
+					noAuth:true
+				},
+				component:() => import("../views/system/performer/undo_task.vue")
+			},
+			{
+				path:"/bid_task",
+				name:"bid_task",
+				meta:{
+					title:"我的竞标",
+					noAuth:true
+				},
+				component:() => import("../views/system/performer/bid_task.vue")
+			},
+			{
+				path: "/performer_info",
+				name: "performer_info",
+				meta: {
+					title: "执行者基本信息",
+					noAuth: true
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/performer/base_info.vue" ),
+			},
+			{
+				path: "/performer_pwd",
+				name: "performer_pwd",
+				meta: {
+					title: "执行者密码",
+					noAuth: true
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/performer/change_pwd.vue" ),
 			},
 
 			// else
