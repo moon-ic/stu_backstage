@@ -4,16 +4,15 @@ import request from '../../utils/request';
 //获取雇主信息
 export const getPublisherInfo = () => {
     return request({
-        url:'http://127.0.0.1:8080/employer/getInfo',
+        url:'./employer/getInfo',
         method:'get'
     });
 };
 //保存雇主信息
-export const savePublisherInfo = (employer) => {
+export const savePublisherInfo = () => {
     return request({
-        url:'http://127.0.0.1:8080/employer/saveInfo',
-        method:'post',
-        data: employer
+        url:'./employer/getInfo',
+        method:'get'
     });
 };
 

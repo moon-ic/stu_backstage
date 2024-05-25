@@ -41,6 +41,10 @@ export const usePermissStore = defineStore("permiss", {
 				"221",
 				"222",
 				"223",
+<<<<<<< HEAD
+=======
+				"224",
+>>>>>>> master
 				"23",
 				"231",
 				"232",

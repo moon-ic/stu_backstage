@@ -152,6 +152,18 @@ const routes: RouteRecordRaw[] = [
 				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/performer/star.vue")
 			},
 			{
+<<<<<<< HEAD
+=======
+				path:"/choose_task",
+				name:"choose_task",
+				meta:{
+					title:"选择任务",
+					noAuth:true
+				},
+				component:() => import("../views/system/performer/choose_task.vue")
+			},
+			{
+>>>>>>> master
 				path:"/done_task",
 				name:"done_task",
 				meta:{

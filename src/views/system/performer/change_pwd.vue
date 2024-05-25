@@ -1,5 +1,6 @@
 <template>
     <div class="password-change-form">
+<<<<<<< HEAD
       <h2>ĞŞ¸ÄÃÜÂë</h2>
       <form @submit.prevent="changePassword">
         <div class="form-group">
@@ -15,6 +16,23 @@
           <input type="password" id="confirmPassword" v-model="confirmPassword" required>
         </div>
         <button type="submit">È·ÈÏĞŞ¸Ä</button>
+=======
+      <h2>ä¿®æ”¹å¯†ç </h2>
+      <form @submit.prevent="changePassword">
+        <div class="form-group">
+          <label for="oldPassword">æ—§å¯†ç :</label>
+          <input type="password" id="oldPassword" v-model="oldPassword" required>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">æ–°å¯†ç :</label>
+          <input type="password" id="newPassword" v-model="newPassword" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">ç¡®è®¤æ–°å¯†ç :</label>
+          <input type="password" id="confirmPassword" v-model="confirmPassword" required>
+        </div>
+        <button type="submit">ç¡®è®¤ä¿®æ”¹</button>
+>>>>>>> master
         <div v-if="error" class="error">{{ error }}</div>
       </form>
     </div>
@@ -32,6 +50,7 @@
     },
     methods: {
       changePassword() {
+<<<<<<< HEAD
         // ×öÒ»Ğ©ÃÜÂëÑéÖ¤£¬ÀıÈçÈ·ÈÏĞÂÃÜÂëÓëĞÂÃÜÂëÆ¥ÅäµÈ
         if (this.newPassword !== this.confirmPassword) {
           this.error = 'ĞÂÃÜÂëÓëÈ·ÈÏÃÜÂë²»Æ¥Åä';
@@ -47,6 +66,23 @@
         this.confirmPassword = '';
         this.error = ''; // Çå³ı´íÎóÏûÏ¢
         alert('ÃÜÂëĞŞ¸Ä³É¹¦£¡');
+=======
+        // åšä¸€äº›å¯†ç éªŒè¯ï¼Œä¾‹å¦‚ç¡®è®¤æ–°å¯†ç ä¸æ–°å¯†ç åŒ¹é…ç­‰
+        if (this.newPassword !== this.confirmPassword) {
+          this.error = 'æ–°å¯†ç ä¸ç¡®è®¤å¯†ç ä¸åŒ¹é…';
+          return;
+        }
+  
+        // å‘é€ä¿®æ”¹å¯†ç è¯·æ±‚
+        // è¿™é‡Œå¯ä»¥ä½¿ç”¨ä½ çš„APIæœåŠ¡å‘é€è¯·æ±‚æ¥éªŒè¯æ—§å¯†ç å¹¶ä¿®æ”¹æ–°å¯†ç 
+  
+        // æ¸…ç©ºè¡¨å•å¹¶æ˜¾ç¤ºæˆåŠŸæ¶ˆæ¯
+        this.oldPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
+        this.error = ''; // æ¸…é™¤é”™è¯¯æ¶ˆæ¯
+        alert('å¯†ç ä¿®æ”¹æˆåŠŸï¼');
+>>>>>>> master
       }
     }
   };

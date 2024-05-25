@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="login-bg">
     <div class="login-container">
       <div class="login-header">
@@ -43,6 +44,53 @@
           没有账号？<el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
         </p>
       </el-form>
+=======
+    <div class="login-bg">
+        <div class="login-container">
+            <div class="login-header">
+                <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
+                <div class="login-title">学生任务发布系统</div>
+            </div>
+            <el-form :model="param" :rules="rules" ref="login" size="large">
+                <el-form-item prop="status">
+                    <el-input v-model="param.status" placeholder="身份">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item prop="username">
+                    <el-input v-model="param.username" placeholder="用户名">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input
+                        type="password"
+                        placeholder="密码"
+                        v-model="param.password"
+                        @keyup.enter="submitForm(login, param)"
+                    >
+                        <template #prepend>
+                            <el-icon>
+                                <Lock />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login, param)">登录</el-button>
+                <p class="login-text">
+                    没有账号？<el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
+                </p>
+            </el-form>
+        </div>
+>>>>>>> master
     </div>
   </div>
 </template>
@@ -55,6 +103,7 @@ import { usePermissStore } from '@/store/permiss';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
+<<<<<<< HEAD
 import request from "@/utils/request";
 // import { login_admin } from '@/api';
 
@@ -62,6 +111,14 @@ interface LoginInfo {
   username: string;
   password: string;
   status: string;
+=======
+import { login_admin } from '@/api';
+
+interface LoginInfo {
+    username: string;
+    password: string;
+    status: string;
+>>>>>>> master
 }
 
 const lgStr = localStorage.getItem('login-param');
@@ -75,6 +132,7 @@ const param = reactive<LoginInfo>({
   status: defParam ? defParam.status : '',
 });
 
+<<<<<<< HEAD
 const login_admin = (username,password) => {
   return request({
     url:'http://127.0.0.1:8080/admin/login',
@@ -104,10 +162,31 @@ const rules: FormRules = {
   ],
 };
 
+=======
+const rules: FormRules = {
+    username: [
+        {
+            required: true,
+            message: '请输入您的用户名',
+            trigger: 'blur',
+        },
+    ],
+    password: [{ required: true, message: '请输入您的密码', trigger: 'blur' }],
+    status: [
+        {
+            required: true,
+            message: '请按照身份填入数字：0（管理员），1（发布者），2（执行者）',
+            trigger: 'blur',
+        },
+    ],
+};
+
+>>>>>>> master
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
 
 const submitForm = (formEl: FormInstance | undefined, param: { username: string, status:string, password: string }) => {
+<<<<<<< HEAD
   if (!formEl) return;
   formEl.validate(async (valid: boolean) => {
     if (valid) {
@@ -129,6 +208,51 @@ const submitForm = (formEl: FormInstance | undefined, param: { username: string,
             break;
           default:
             throw new Error('Invalid status');
+=======
+    if (!formEl) return;
+    formEl.validate(async (valid: boolean) => {
+        if (valid) {
+            try {
+                let res;
+                switch (param.status) {
+                    case '0':
+                        // 管理员登录
+                        res = await login_admin(param.username, param.password);
+                        break;
+                    case '1':
+                        // 发布者登录
+                        
+                        break;
+                    case '2':
+                        // 执行者登录
+                        
+                        break;
+                    default:
+                        throw new Error('Invalid status');
+                }
+
+                if (res && res.success) {
+                    ElMessage.success('登录成功');
+                    localStorage.setItem('vuems_name', param.username);
+                    localStorage.setItem('user_status', param.status.toString());
+                    const keys = permiss.defaultList[param.username === 'admin' ? 'admin' : 'user'];
+                    permiss.handleSet(keys);
+                    router.push('/');
+                    if (checked.value) {
+                        localStorage.setItem('login-param', JSON.stringify(param));
+                    } else {
+                        localStorage.removeItem('login-param');
+                    }
+                } else {
+                    ElMessage.error('登录失败');
+                }
+            } catch (error) {
+                ElMessage.error('登录失败');
+            }
+        } else {
+            ElMessage.error('登录失败');
+            return false;
+>>>>>>> master
         }
 
         if (res.data && res.data.code) {
