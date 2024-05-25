@@ -3,9 +3,18 @@
         <div class="login-container">
             <div class="login-header">
                 <img class="logo mr10" src="../../assets/img/logo.svg" alt="" />
-                <div class="login-title">后台管理系统</div>
+                <div class="login-title">学生任务发布系统</div>
             </div>
             <el-form :model="param" :rules="rules" ref="login" size="large">
+                <el-form-item prop="status">
+                    <el-input v-model="param.status" placeholder="身份">
+                        <template #prepend>
+                            <el-icon>
+                                <User />
+                            </el-icon>
+                        </template>
+                    </el-input>
+                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="param.username" placeholder="用户名">
                         <template #prepend>
@@ -20,7 +29,7 @@
                         type="password"
                         placeholder="密码"
                         v-model="param.password"
-                        @keyup.enter="submitForm(login)"
+                        @keyup.enter="submitForm(login, param)"
                     >
                         <template #prepend>
                             <el-icon>
@@ -29,12 +38,7 @@
                         </template>
                     </el-input>
                 </el-form-item>
-                <div class="pwd-tips">
-                    <el-checkbox class="pwd-checkbox" v-model="checked" label="记住密码" />
-                    <el-link type="primary" @click="$router.push('/reset-pwd')">忘记密码</el-link>
-                </div>
-                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login)">登录</el-button>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <el-button class="login-btn" type="primary" size="large" @click="submitForm(login, param)">登录</el-button>
                 <p class="login-text">
                     没有账号？<el-link type="primary" @click="$router.push('/register')">立即注册</el-link>
                 </p>
@@ -43,6 +47,7 @@
     </div>
 </template>
 
+
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { useTabsStore } from '@/store/tabs';
@@ -50,10 +55,12 @@ import { usePermissStore } from '@/store/permiss';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
+import { login_admin } from '@/api';
 
 interface LoginInfo {
     username: string;
     password: string;
+    status: string;
 }
 
 const lgStr = localStorage.getItem('login-param');
@@ -64,33 +71,70 @@ const router = useRouter();
 const param = reactive<LoginInfo>({
     username: defParam ? defParam.username : '',
     password: defParam ? defParam.password : '',
+    status: defParam ? defParam.status : '',
 });
 
 const rules: FormRules = {
     username: [
         {
             required: true,
-            message: '请输入用户名',
+            message: '请输入您的用户名',
             trigger: 'blur',
         },
     ],
-    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    password: [{ required: true, message: '请输入您的密码', trigger: 'blur' }],
+    status: [
+        {
+            required: true,
+            message: '请按照身份填入数字：0（管理员），1（发布者），2（执行者）',
+            trigger: 'blur',
+        },
+    ],
 };
+
 const permiss = usePermissStore();
 const login = ref<FormInstance>();
-const submitForm = (formEl: FormInstance | undefined) => {
+
+const submitForm = (formEl: FormInstance | undefined, param: { username: string, status:string, password: string }) => {
     if (!formEl) return;
-    formEl.validate((valid: boolean) => {
+    formEl.validate(async (valid: boolean) => {
         if (valid) {
-            ElMessage.success('登录成功');
-            localStorage.setItem('vuems_name', param.username);
-            const keys = permiss.defaultList[param.username == 'admin' ? 'admin' : 'user'];
-            permiss.handleSet(keys);
-            router.push('/');
-            if (checked.value) {
-                localStorage.setItem('login-param', JSON.stringify(param));
-            } else {
-                localStorage.removeItem('login-param');
+            try {
+                let res;
+                switch (param.status) {
+                    case '0':
+                        // 管理员登录
+                        res = await login_admin(param.username, param.password);
+                        break;
+                    case '1':
+                        // 发布者登录
+                        
+                        break;
+                    case '2':
+                        // 执行者登录
+                        
+                        break;
+                    default:
+                        throw new Error('Invalid status');
+                }
+
+                if (res && res.success) {
+                    ElMessage.success('登录成功');
+                    localStorage.setItem('vuems_name', param.username);
+                    localStorage.setItem('user_status', param.status.toString());
+                    const keys = permiss.defaultList[param.username === 'admin' ? 'admin' : 'user'];
+                    permiss.handleSet(keys);
+                    router.push('/');
+                    if (checked.value) {
+                        localStorage.setItem('login-param', JSON.stringify(param));
+                    } else {
+                        localStorage.removeItem('login-param');
+                    }
+                } else {
+                    ElMessage.error('登录失败');
+                }
+            } catch (error) {
+                ElMessage.error('登录失败');
             }
         } else {
             ElMessage.error('登录失败');
