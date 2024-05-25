@@ -1,9 +1,9 @@
 import request from "../utils/request";
-import { adminReq, adminRes } from "@/types/login";
+import { adminRes } from "@/types/login";
 
 /** @description 管理员登录 */
-export const login_admin = async (params: adminReq): Promise<adminRes> => {
-	const res = await request.post("/admin/login", params);
+export const login_admin = async (username, password): Promise<adminRes> => {
+	const res = await request.post("/admin/login", { username, password });
 	return res.data;
 };
 
