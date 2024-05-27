@@ -3,12 +3,6 @@ import { Menus } from "@/types/menu";
 export const menuData: Menus[] = [
 	// 1.admin
 	{
-		id: "00",
-		title: "首页",
-		index: "/dashboard0",
-		icon: "Odometer"
-	},
-	{
 		id: "01",
 		title: "任务分类管理",
 		index: "1-1",
@@ -177,13 +171,5 @@ export const menuData: Menus[] = [
 				title: "修改密码"
 			}
 		]
-	},
-
-	//else
-	{
-		id: "7",
-		icon: "Brush",
-		index: "/theme",
-		title: "主题"
 	}
 ];

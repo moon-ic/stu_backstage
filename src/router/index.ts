@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
 		redirect: (to) => {
 			const status = localStorage.getItem("user_status");
 			if (status === "0") {
-				return "/dashboard0";
+				return "/system-task-classfy";
 			} else if (status === "1") {
 				return "/dashboard1";
 			} else {
@@ -24,15 +24,6 @@ const routes: RouteRecordRaw[] = [
 		component: Home,
 		children: [
 			// 管理员
-			{
-				path: "/dashboard0",
-				name: "dashboard0",
-				meta: {
-					title: "管理员系统首页",
-					noAuth: true
-				},
-				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
-			},
 			{
 				path: "/system-task-display",
 				name: "system-task-display",
@@ -66,7 +57,7 @@ const routes: RouteRecordRaw[] = [
 				name: "system-task-classfy",
 				meta: {
 					title: "任务分类列表",
-					permiss: "04"
+					noAuth: true
 				},
 				component: () => import(/* webpackChunkName: "system-menu" */ "../views/system/admin/task_classfy.vue")
 			},
