@@ -105,20 +105,21 @@ const submitForm = (formEl: FormInstance | undefined, param: { username: string,
                     case '0':
                         // 管理员登录
                         res = await login_admin(param.username, param.password);
+                       
                         break;
                     case '1':
                         // 发布者登录
-                        
+                       
                         break;
                     case '2':
                         // 执行者登录
-                        
+                       
                         break;
                     default:
                         throw new Error('Invalid status');
                 }
 
-                if (res && res.success) {
+                if (res) {
                     ElMessage.success('登录成功');
                     localStorage.setItem('vuems_name', param.username);
                     localStorage.setItem('user_status', param.status.toString());
