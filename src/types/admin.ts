@@ -1,10 +1,3 @@
-export interface Task_classfy {
-	name: string;
-	pic: string;
-	allNum: string;
-	isHot: string;
-}
-
 /** @description 所有任务分类 */
 export interface taskCategory {
 	id: number;
@@ -14,7 +7,6 @@ export interface taskCategory {
 	taskCount: number;
 	status?: number; //没用的字段
 }
-[];
 
 /** @description 添加分类 */
 export interface addTaskCategoryReq {

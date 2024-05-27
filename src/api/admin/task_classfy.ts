@@ -1,10 +1,10 @@
 import request from "../../utils/request";
-import { addTaskCategoryReq, fixTaskCategoryReq, fixTaskCategoryRes, task, taskCategory } from "@/types/admin";
+import { addTaskCategoryReq, fixTaskCategoryReq, fixTaskCategoryRes } from "@/types/admin";
 
 /** @description 所有任务分类 */
-export const fetchTaskCategory = async (): Promise<taskCategory> => {
+export const fetchTaskCategory = async () => {
 	const res = await request.get("/admin/task/category");
-	return res.data;
+	return res;
 };
 
 /** @description 添加分类 */
