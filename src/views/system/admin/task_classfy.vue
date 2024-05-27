@@ -86,8 +86,9 @@ const handleEdit = async(row:taskCategory) => {
     visible.value = true;
 };
 
-const submitData = async () => {
+const submitData = async (row) => {
     try {
+        rowData.value = { ...row };
         const { categoryName, categoryImg } = rowData.value;
         await addTaskCategory(categoryName, categoryImg || ' ');
         ElMessage.success('新增成功');
