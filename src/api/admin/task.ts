@@ -14,13 +14,13 @@ export const fetchCheckTask = async () => {
 };
 
 /** @description 审核通过 */
-export const checkTaskSuccess = async (params: fixTaskCategoryReq): Promise<string> => {
-	const res = await request.get(`/admin/task/checkSuccess?taskId=${params.id}`);
+export const checkTaskSuccess = async (id): Promise<string> => {
+	const res = await request.get(`/admin/task/checkSuccess?taskId=${id}`);
 	return res.data;
 };
 
 /** @description 审核不通过 */
-export const checkTaskUnsuccess = async (params: fixTaskCategoryReq): Promise<string> => {
-	const res = await request.get(`/admin/task/check/unCheckSuccess?taskId=${params.id}`);
+export const checkTaskUnsuccess = async (id): Promise<string> => {
+	const res = await request.get(`/admin/task/check/unCheckSuccess?taskId=${id}`);
 	return res.data;
 };
