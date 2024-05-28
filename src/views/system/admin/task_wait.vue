@@ -25,16 +25,12 @@ let columns = ref([
             label: '任务标题',
         },
         {
-            prop: 'taskCategory.categoryName',
+            prop: 'taskCategory',
             label: '任务分类',
         },
         {
-            prop: 'employer.username',
+            prop: 'employer',
             label: '雇主',
-        },
-        {
-            prop: 'employee.username',
-            label: '完成任务雇员',
         },
         {
             prop: 'taskStatus',
@@ -53,7 +49,7 @@ let columns = ref([
             label: '创建时间',
         },
         {   
-            prop: 'operator', 
+            prop: 'operator1', 
             label: '操作', 
         },
 ])

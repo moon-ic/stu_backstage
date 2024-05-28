@@ -25,24 +25,24 @@ let columns = ref([
             label: '姓名',
         },
         {
-            prop: 'phone',
-            label: '电话',
-        },
-        {
-            prop: 'email',
-            label: '邮箱',
+            prop: 'profile',
+            label: '简介',
         },
         {
             prop: 'tagline',
             label: '标签',
         },
         {
-            prop: 'profile',
-            label: '形象',
+            prop: 'browseCount',
+            label: '被浏览次数',
         },
         {
-            prop: 'browseCount',
-            label: '浏览次数',
+            prop: 'phone',
+            label: '电话',
+        },
+        {
+            prop: 'email',
+            label: '邮箱',
         },
         {
             prop: 'createTime',

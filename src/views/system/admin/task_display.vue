@@ -25,16 +25,16 @@ let columns = ref([
             label: '任务标题',
         },
         {
-            prop: 'taskCategory.categoryName',
+            prop: 'taskProfile',
+            label: '任务描述',
+        },
+        {
+            prop: 'taskCategory',
             label: '任务分类',
         },
         {
-            prop: 'employer.username',
+            prop: 'employer',
             label: '雇主',
-        },
-        {
-            prop: 'employee.username',
-            label: '完成任务雇员',
         },
         {
             prop: 'taskStatus',
@@ -70,6 +70,8 @@ const changePage = (val: number) => {
     page.index = val;
     getData();
 };
+
+
 
 </script>
 

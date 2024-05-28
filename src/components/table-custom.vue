@@ -40,7 +40,6 @@
             <template v-for="item in columns" :key="item.prop">
                 <el-table-column v-if="item.visible" :prop="item.prop" :label="item.label" :width="item.width"
                     :type="item.type" :align="item.align || 'center'">
-
                     <template #default="{ row, column, $index }" v-if="item.type === 'index'">
                         {{ getIndex($index) }}
                     </template>
@@ -63,7 +62,10 @@
                                 {{ item.formatter(row[item.prop]) }}
                             </span>
                             <span v-else>
-                                {{ row[item.prop] }}
+                                {{ console.log(row[item.prop]) }}
+                                {{ (item.prop==='taskStatus')? statusType[row[item.prop]+'']:(item.prop!=='employer'&&item.prop!=='taskCategory')?row[item.prop]:null }}
+                                {{ item.prop==='employer'? row[item.prop].username:null }}
+                                {{ (item.prop==='taskCategory')?row[item.prop]?.categoryName:null }}
                             </span>
                         </slot>
                     </template>
@@ -79,6 +81,11 @@
 import { toRefs, PropType, ref } from 'vue'
 import { Delete, Edit, View, Refresh } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
+const statusType={
+    '-1':'待审核',
+    '0':'待完成',
+    '3':'已完成'
+}
 
 const props = defineProps({
     // 表格相关
