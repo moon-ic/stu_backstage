@@ -21,8 +21,32 @@ let columns = ref([
             label: '执行者ID',
         },
         {
-            prop: 'userName',
-            label: '执行者名字',
+            prop: 'username',
+            label: '姓名',
+        },
+        {
+            prop: 'phone',
+            label: '电话',
+        },
+        {
+            prop: 'email',
+            label: '邮箱',
+        },
+        {
+            prop: 'tagline',
+            label: '标签',
+        },
+        {
+            prop: 'profile',
+            label: '形象',
+        },
+        {
+            prop: 'browseCount',
+            label: '浏览次数',
+        },
+        {
+            prop: 'createTime',
+            label: '创建时间',
         }
     
 ])

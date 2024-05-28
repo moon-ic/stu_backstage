@@ -16,13 +16,25 @@ import TableCustom from '@/components/table-custom.vue';
 
 // 表格相关
 let columns = ref([
-      {
+        {
             prop: 'id',
             label: '发布者ID',
         },
         {
-            prop: 'userName',
-            label: '发布者名字',
+            prop: 'username',
+            label: '姓名',
+        },
+        {
+            prop: 'phone',
+            label: '电话',
+        },
+        {
+            prop: 'email',
+            label: '邮箱',
+        },
+        {
+            prop: 'createTime',
+            label: '创建时间',
         }
     
 ])
