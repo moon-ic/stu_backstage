@@ -31,14 +31,12 @@ export interface publisher {
 	id: string;
 	username: string;
 }
-[];
 
 /** @description 获取执行者 */
 export interface performer {
 	id: string;
 	username: string;
 }
-[];
 
 /** @description 所有任务 */
 export interface task {

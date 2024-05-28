@@ -1,16 +1,16 @@
 import request from "../../utils/request";
-import { fixTaskCategoryReq, task } from "@/types/admin";
+import { fixTaskCategoryReq } from "@/types/admin";
 
 /** @description 所有任务 */
-export const fetchTask = async (): Promise<task> => {
+export const fetchTask = async () => {
 	const res = await request.get("/admin/task");
-	return res.data;
+	return res;
 };
 
 /** @description 待审核任务 */
-export const fetchCheckTask = async (): Promise<task> => {
+export const fetchCheckTask = async () => {
 	const res = await request.get("/admin/task/check");
-	return res.data;
+	return res;
 };
 
 /** @description 审核通过 */
