@@ -62,7 +62,6 @@
                                 {{ item.formatter(row[item.prop]) }}
                             </span>
                             <span v-else>
-                                {{ console.log(row[item.prop]) }}
                                 {{ (item.prop==='taskStatus')? statusType[row[item.prop]+'']:(item.prop!=='employer'&&item.prop!=='taskCategory')?row[item.prop]:null }}
                                 {{ item.prop==='employer'? row[item.prop].username:null }}
                                 {{ (item.prop==='taskCategory')?row[item.prop]?.categoryName:null }}

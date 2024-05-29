@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-            <TableCustom :columns="columns" :tableData="tableData" :page-change="changePage" >
+            <TableCustom :columns="columns" :tableData="tableData" :page-change="changePage" :editFunc="handleEdit">
             </TableCustom>
         </div>
         <el-dialog :title="'审核'" v-model="visible"  width="700px" destroy-on-close :close-on-click-modal="false" @close="closeDialog">
@@ -73,17 +73,21 @@ const getData = async () => {
 };
 getData();
 
+// 审核弹窗相关
 let options = ref<FormOption>({
-    labelWidth: '150px',
     span: 15,
-    list: [
-        { type: 'select', prop: 'taskStatus',label: '审核', required: true},
-    ]
+    list:  [{
+         type: 'select', 
+         prop: 'taskStatus',
+         label: '', 
+         opts:[{label:"审核通过",value:0},{label:"审核不通过",value:-1}],
+         required: true
+        }]
 })
 const visible = ref(false);
 const rowData = ref<task>({} as task);
 
-const handleEdit = async(row:task) => {
+const handleEdit = async(row) => {
     rowData.value = { ...row };
     getData();
     visible.value = true;
@@ -91,17 +95,16 @@ const handleEdit = async(row:task) => {
 
 const submitData = async (row) => {
     try {
-        rowData.value = { ...row };
-        const { id, taskStatus } = rowData.value;
-        if(taskStatus===0){//从0-》-1
-            await checkTaskSuccess(id);
-        }else if(taskStatus===-1){//从-1-》0
-            await checkTaskUnsuccess(id);
+        const { taskStatus } = row;
+        if(taskStatus===0){
+            await checkTaskSuccess(rowData.value.id);
+        }else if(taskStatus===-1){
+            await checkTaskUnsuccess(rowData.value.id);
         }
         closeDialog();
         getData();
     } catch (error) {
-       ElMessage.success('提交审核失败');
+       ElMessage.error('提交审核失败');
     }
 };
 

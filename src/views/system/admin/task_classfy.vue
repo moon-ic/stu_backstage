@@ -89,6 +89,8 @@ const handleEdit = async(row:taskCategory) => {
 const submitData = async (row) => {
     try {
         rowData.value = { ...row };
+        console.log(rowData.value);
+        
         const { categoryName, categoryImg } = rowData.value;
         await addTaskCategory(categoryName, categoryImg || ' ');
         if(isEdit.value)await delTaskCategory(row.id);
@@ -137,7 +139,7 @@ const handleDelete = async(row: taskCategory) => {
         await ElMessage.success('删除成功');
         await getData();
     }catch{
-        ElMessage.success('删除失败');
+        ElMessage.error('删除失败');
     }
 }
 </script>

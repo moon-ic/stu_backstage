@@ -21,6 +21,6 @@ export const checkTaskSuccess = async (id): Promise<string> => {
 
 /** @description 审核不通过 */
 export const checkTaskUnsuccess = async (id): Promise<string> => {
-	const res = await request.get(`/admin/task/check/unCheckSuccess?taskId=${id}`);
+	const res = await request.get(`/admin/task/unCheckSuccess?taskId=${id}`);
 	return res.data;
 };
