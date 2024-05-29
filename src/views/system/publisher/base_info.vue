@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user-profile">
     <img src="@/assets/img/img.jpg" alt="用户头像" style="width: 100px; height: 100px; border-radius: 50%;">
 
     <form @submit.prevent="updateUserInfo">
@@ -70,5 +70,52 @@ export default {
 </script>
 
 <style>
-/* 样式可以根据需求自行添加 */
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.user-profile img {
+  margin-bottom: 20px;
+}
+
+.user-profile form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 确保表单元素垂直排列 */
+}
+
+.user-profile form label {
+  margin-bottom: 5px; /* 标签和输入框之间的间距 */
+}
+
+.user-profile form input[type="text"],
+.user-profile form input[type="tel"],
+.user-profile form input[type="email"] {
+  margin-bottom: 15px; /* 输入框之间的间距 */
+  padding: 8px; /* 输入框内边距 */
+  border: 1px solid #ccc; /* 输入框边框 */
+  border-radius: 4px; /* 输入框边框圆角 */
+  width: 100%; /* 输入框宽度设为100%以填充其父元素 */
+}
+
+.user-profile form button {
+  padding: 10px 20px; /* 按钮内边距 */
+  border: none; /* 移除默认边框 */
+  border-radius: 4px;
+  background-color: #2d8cf0;
+  color: white;
+  cursor: pointer;
+}
+
+.user-profile form button:hover {
+  background-color: #629cda;
+}
 </style>

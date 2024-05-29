@@ -90,8 +90,9 @@ export const getTaskInfo = (taskId) => {
 
 //上传任务    注意参数
 export const submitTask = (skills,task) => {
+    let publisherId = localStorage.getItem("publisher-id")
     return request({
-        url:`./employer/task/post?skills=${skills}`,
+        url:`./employer/task/post?employerId=${publisherId}&&skills=${skills}`,
         method:'post',
         data: task
     });
@@ -109,7 +110,7 @@ export const updateTask = (task) => {
 export const deleteTask = (taskId) => {
     return request({
         url:`./employer/task/delete?taskId=${taskId}`,
-        method:'post'
+        method:'get'
     });
 };
 
@@ -130,11 +131,10 @@ export const taskSuccess = (taskId) => {
 };
 
 //添加技能
-export const addSkill = (skillName) => {
+export const addSkill = (skillName,taskId) => {
     return request({
-        url: './employer/skill/add',
-        method: 'post',
-        data: skillName
+        url: './employer/skills/add?skillName=' + skillName+'&&taskId=' + taskId,
+        method: 'get'
     });
 };
 

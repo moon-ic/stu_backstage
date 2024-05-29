@@ -1,25 +1,43 @@
 <template>
-  <div>
-    <h1>收藏的任务</h1>
-    <ul>
-      <li v-for="task in tasks" :key="task.id">
-        <span>{{ task.taskVo.taskTitle }}</span>
-        <span>{{task.taskVo.taskProfile}}</span>
-        <span>预算: {{ task.taskVo.feesHigh }}-{{ task.taskVo.feesLow }}</span>
-        <span>{{ formatDate(task.taskVo.createTime) }}</span>
-        <div v-if="task.status===3">任务已完成</div>
-        <div v-else=>任务未完成</div>
-        <button @click="unfavoriteTask(task.id)">取消收藏</button>
-      </li>
-    </ul>
+  <div  class="grid">
+    <h2 class="title-text">
+      <el-icon ><SuitcaseLine style="color: #2d8cf0"/></el-icon> 收藏的任务
+    </h2>
+       <div>
+         <ul>
+           <li v-for="task in tasks" :key="task.id" class="li-task">
+             <div class="left" @click="goToTask(task.id)">
+               <span style="font-size: 18px">{{ task.taskVo.taskTitle }}</span>
+               <span>{{task.taskVo.taskProfile}}</span>
+               <span style="color: #929ba8; float: left;">
+                 <el-icon><UserFilled /></el-icon>
+                 {{task.taskVo.employer.username}}
+               </span>
+               <span style="color: #929ba8;margin-left: 60px">
+                 <el-icon><Clock /></el-icon>
+                 {{task.taskVo.beforeTime}}
+               </span>
+               <span style="margin-top: 10px">预算: ￥{{ task.taskVo.feesLow }} —￥{{ task.taskVo.feesHigh }}</span>
+             </div>
+             <div class="right">
+               <div v-if="task.status===3" class="status">任务已完成</div>
+               <div v-else class="status">任务未完成</div>
+               <el-icon @click="unfavoriteTask(task.taskVo.id)" class="icon"><DeleteFilled color="red" /></el-icon>
+             </div>
+           </li>
+         </ul>
+       </div>
   </div>
 </template>
 
 <script>
 import {deleteStarTasks, starTasks} from "@/api/performer";
 import {ElMessage} from "element-plus";
+import router from "@/router";
+import {Clock, SuitcaseLine, UserFilled} from "@element-plus/icons-vue";
 
 export default {
+  components: {Clock, UserFilled, SuitcaseLine},
   data() {
     return {
       tasks:[]
@@ -39,14 +57,16 @@ export default {
     },
     //取消收藏任务
     unfavoriteTask(taskId) {
-      this.tasks = this.tasks.filter(task => task.id !== taskId);
       deleteStarTasks(taskId).then(res=>{
         if(res.data.code === 1){
           ElMessage.success(res.data.data);
+          this.starTask();
         }
       })
-      this.reload();
       console.log(`已取消收藏任务 ${taskId}`);
+    },
+    goToTask(taskId) {
+      router.replace(`/task/${taskId}`);
     },
     formatDate(dateString) {
       const date = new Date(dateString);
@@ -66,21 +86,50 @@ export default {
 </script>
 
 <style>
+.title-text{
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #8c939d;
+}
 /* 你可以根据需要添加样式 */
 ul {
   list-style-type: none;
-  padding: 0;
 }
 
-li {
-  margin-bottom: 10px;
+.grid{
+  margin: 30px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.li-task{
+  border-bottom: 1px solid #d7d9dd;
+  padding: 15px;
+}
+.li-task:last-child {
+  border-bottom: none; /* 移除最后一个li元素的下边框 */
 }
 
 span {
+  display: block;
   margin-right: 10px;
 }
-
-button {
-  margin-left: 10px;
+.left{
+  text-align: left;
+  display: inline-block;
+  width: 75%;
+}
+.right{
+  line-height: 50px;
+  display: block;
+  float: right;
+  .status{
+    font-size: 16px;
+    color: #007bff;
+  };
+  .icon{
+    font-size: 20px;
+    margin-left: 30px;
+  }
 }
 </style>

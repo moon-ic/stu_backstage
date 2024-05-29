@@ -110,6 +110,7 @@ const routes: RouteRecordRaw[] = [
 				},
 				component:() => import(/* webpackChunkName: "dashboard" */"../views/system/publisher/publish_task.vue"),
 			},
+
 			{
 				path: "/publisher_info",
 				name: "publisher_info",
@@ -136,6 +137,15 @@ const routes: RouteRecordRaw[] = [
 					noAuth: true
 				},
 				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/publisher/manage_bidders.vue" ),
+			},
+			{
+				path:"/change_task/:id",
+				name:"change_task",
+				meta:{
+					title:"修改任务",
+					noAuth:true
+				},
+				component:() => import(/* webpackChunkName: "dashboard" */"../views/system/publisher/change_task.vue"),
 			},
 
 			// 执行者
@@ -218,9 +228,9 @@ const routes: RouteRecordRaw[] = [
 				name: "performer",
 				meta: {
 					title: "执行者主页",
-					noAuth: '51'
+					noAuth: true
 				},
-				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/task.vue" ),
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/home_page.vue" )
 			},
 
 			//任务信息页
@@ -229,7 +239,7 @@ const routes: RouteRecordRaw[] = [
 				name: "task",
 				meta: {
 					title: "任务页面",
-					noAuth: '52'
+					noAuth: true
 				},
 				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/task.vue" ),
 			},
@@ -272,7 +282,6 @@ const routes: RouteRecordRaw[] = [
 				},
 				component: () => import(/* webpackChunkName: "echarts" */ "../views/chart/echarts.vue")
 			},
-
 			{
 				path: "/icon",
 				name: "icon",

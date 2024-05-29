@@ -1,56 +1,70 @@
 <template>
   <div class="user-edit">
-    <h1>编辑用户信息</h1>
+    <h1>个人信息</h1>
     <form @submit.prevent="submitForm">
-      <!-- 用户名 -->
-      <div class="form-group">
-        <label for="username">用户名</label>
-        <input type="text" v-model="user.username" id="username" required>
-      </div>
+      <div class="account">
+        <h3>
+          <el-icon><Avatar style="color:#007bff"/></el-icon>
+          基本信息
+          <button type="submit">保存信息</button>
+        </h3>
+        <div class="img">
+          <img src="../../../assets/img/img.jpg" alt="">
+        </div>
+        <!-- 用户名 -->
+        <div class="form">
+          <div class="form-group">
+            <label for="username">用户名&nbsp;&nbsp;</label>
+            <input type="text" v-model="user.username" id="username" required>
+          </div>
 
-      <!-- 电子邮件 -->
-      <div class="form-group">
-        <label for="email">电子邮件</label>
-        <input type="email" v-model="user.email" id="email" required>
-      </div>
+          <!-- 电子邮件 -->
+          <div class="form-group">
+            <label for="email">电子邮件</label>
+            <input type="email" v-model="user.email" id="email" required>
+          </div>
 
-      <!-- 电话号码 -->
-      <div class="form-group">
-        <label for="phone">电话号码</label>
-        <input type="text" v-model="user.phone" id="phone" required>
-      </div>
+          <!-- 电话号码 -->
+          <div class="form-group">
+            <label for="phone">电话号码</label>
+            <input type="text" v-model="user.phone" id="phone" required>
+          </div>
+        </div>
 
-      <!-- 个性签名 -->
-      <div class="form-group">
-        <label for="tagline">个性签名</label>
-        <input type="text" v-model="user.tagline" id="tagline">
-      </div>
-<!--       TODO 添加技能删除技能-->
-      <div class="skills">
-        <h3>拥有技能</h3>
-        <ul>
-          <li v-for="skill in user.skills" :key="skill.id">{{ skill.skillName }}</li>
-        </ul>
-      </div>
+        </div>
 
-      <!-- 简介 -->
-      <div class="form-group">
-        <label for="profile">简介</label>
-        <textarea v-model="user.profile" id="profile"></textarea>
-      </div>
-
-      <!-- 提交按钮 -->
-      <button type="submit">保存信息</button>
+      <div class="profile">
+        <h3>
+          <el-icon><Avatar style="color:#007bff"/></el-icon>
+          个人简介
+        </h3>
+        <!-- 个性签名 -->
+        <div class="form">
+          <div class="form-group">
+            <label for="tagline">个性签名</label>
+            <input type="text" v-model="user.tagline" id="tagline">
+          </div>
+          <div class="skills">
+            <label for="skills">拥有技能</label>
+            <input type="text" v-model="user.skills" id="skills">
+          </div>
+          <div class="form-group">
+            <label for="profile">简介</label>
+            <textarea v-model="user.profile" id="profile"></textarea>
+          </div>
+        </div>
+        </div>
     </form>
   </div>
 </template>
 <script>
 
-
 import {getAllInfo,saveAllInfo} from "@/api/performer";
 import {ElMessage} from "element-plus";
+import {Avatar} from "@element-plus/icons-vue";
 
 export default {
+  components: {Avatar},
   data() {
     return {
       user: {
@@ -60,7 +74,7 @@ export default {
         phone: '',
         tagline: '',
         profile: '',
-        skills: [],
+        skills:'',
       },
     };
   },
@@ -80,7 +94,7 @@ export default {
         this.user.phone = data.phone;
         this.user.tagline = data.tagline;
         this.user.profile = data.profile;
-        this.user.skills = data.skills;
+        this.user.skills = data.skills.map(skill => skill.skillName).join(", ");
       })
     },
     submitForm() {
@@ -89,6 +103,7 @@ export default {
         console.log(res.data);
         if(res.data.code===1){
           ElMessage("保存成功");
+          this.getInfo()
         }
       })
     },
@@ -97,36 +112,106 @@ export default {
 </script>
 
 <style scoped>
-.user-edit {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+ul{
+  list-style: none;
+}
+.account{
+  width:89%;
+  margin: auto;
+  height: 230px;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  //box-shadow: -3px 4px 5px #949898;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h3{
+    line-height: 60px;
+    border-bottom: 1px solid #c2c7cf;
+    button{
+      float: right;
+      width: 80px;
+      height:40px;
+      background-color: #007bff;
+      color:white;
+      border: none;
+      margin: 10px 30px;
+      border-radius: 10px;
+    }
+  }
+  .img{
+    width: 20%;
+    display: flex;
+    float: left;
+    justify-content: center;
+    align-items: center;
+    height: 170px;
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  .form{
+    width: 70%;
+    text-align: left;
+    float: right;
+    .form-group{
+      label {
+        font-size: 18px;
+        margin-right: 10px;
+      }
+      input{
+        width: 400px;
+        margin-top: 20px;
+        height:30px;
+      }
+    }
+  }
+}
+.profile{
+  width:89%;
+  margin: auto;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: -3px 4px 5px #949898;
+  margin-top: 20px;
+  h3{
+    line-height: 60px;
+    border-bottom: 1px solid #c2c7cf;
+  }
+  .form{
+    .form-group,
+    .skills
+    {
+      padding: 10px;
+      border-bottom: 1px solid #8c939d;
+      label{
+        display: block;
+        line-height: 30px;
+        margin-left: 20px;
+      }
+      input{
+        padding: 2px 10px;
+        margin: auto;
+        display: block;
+        width: 90%;
+        height:30px;
+      }
+      textarea{
+        width: 92%;
+        height: 100px;
+        margin-left: 45px;
+      }
+    }
+  }
+}
+input,
+textarea
+{
+  border:1px solid #dfe1e4;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
 
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
 
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
 
-.avatar-preview {
-  display: block;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-top: 10px;
-}
+
 </style>

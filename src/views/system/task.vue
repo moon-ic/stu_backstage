@@ -1,85 +1,88 @@
 <template>
   <div class="task-details">
-    <!-- ÈÎÎñÃû³ÆºÍ¼ò½é -->
-    <h1>{{ task.title }}</h1>
-    <p>{{ task.summary }}</p>
-    <p>{{task.category}}</p>
+    <div class="left_box">
+      <!-- ä»»åŠ¡åç§°å’Œç®€ä»‹ -->
+      <h1>{{ task.title }}</h1>
+      <p>{{ task.summary }}</p>
 
-    <!-- ·¢²¼ÕßĞÅÏ¢ -->
-    <div class="publisher-info">
-      <img :src="publisher.avatar" :alt="publisher.username">
-      <span>{{ publisher.username }}</span>
-      <span>{{ publisher.phone}}</span>
-      <span>{{ publisher.email}}</span>
+      <!-- å‘å¸ƒè€…ä¿¡æ¯ -->
+      <div class="publisher-info">
+        <img src="../../assets/img/img.jpg" :alt="publisher.username">
+        <div class="spans">
+          <span>ç”¨æˆ·æ˜µç§°ï¼š{{ publisher.username }}</span>
+          <span>ç”µè¯å·ç ï¼š{{ publisher.phone}}</span>
+          <span>é‚®ç®±ï¼š{{ publisher.email}}</span>
+        </div>
+      </div>
+      <!-- ä»»åŠ¡æè¿° -->
+      <div class="task-description">
+        <p>ä»»åŠ¡æè¿°ï¼š{{ task.description }}</p>
+      </div>
+
+      <!-- æ‰€éœ€æŠ€èƒ½ -->
+      <div class="required-skills">
+        <h3>æ‰€éœ€æŠ€èƒ½</h3>
+        <ul>
+          <li v-for="skill in task.requiredSkills" :key="skill.id">{{ skill.skillName }}</li>
+        </ul>
+      </div>
     </div>
 
-    <!-- ÈÎÎñÔ¤ËãÇø¼ä -->
-    <div class="budget-range">
-      <span>×îµÍÔ¤Ëã: {{ task.minBudget }}</span>
-      <span>×î¸ßÔ¤Ëã: {{ task.maxBudget }}</span>
-    </div>
-    =
-    <!-- ÈÎÎñÃèÊö -->
-    <div class="task-description">
-      <p>{{ task.description }}</p>
-    </div>
-
-    <!-- ËùĞè¼¼ÄÜ -->
-    <div class="required-skills">
-      <h3>ËùĞè¼¼ÄÜ</h3>
-      <ul>
-        <li v-for="skill in task.requiredSkills" :key="skill.skillId">{{ skill.skillName }}</li>
-      </ul>
-    </div>
-
-    <!-- Í¶±êÇøÓò -->
-    <div class="bidding-area">
-      <h3>Í¶±ê</h3>
-      <div>
-        <input type="number" v-model="bids.bidPrice" required>
-        <p>Ô¤¼ÆÍê³ÉÈÎÎñÊ±¼ä£º</p>
-        <input type="number" v-model="bids.timeNumber" required>
-        <select v-model="bids.timeType" required>
-          <option value="Ìì">ÇëÑ¡Ôñ·ÖÀà</option>
-          <option v-for="type in bids.timeType" :value="type">
-            {{ type }}
-          </option>
-        </select>
-        <button @click="acceptBid">ÎÒÒª¾º±ê</button>
+    <div class="right_box">
+      <!-- æŠ•æ ‡åŒºåŸŸ -->
+      <div class="bidding-area">
+        <h3>æŠ•æ ‡</h3>
+        <!-- ä»»åŠ¡é¢„ç®—åŒºé—´ -->
+        <div class="budget-range">
+          <span>æœ€ä½é¢„ç®—: {{ task.minBudget }}</span>
+          <span>æœ€é«˜é¢„ç®—: {{ task.maxBudget }}</span>
+        </div>
+        <div>
+          <input type="number" v-model="bids.bidPrice" required>
+          <p>é¢„è®¡å®Œæˆä»»åŠ¡æ—¶é—´ï¼š</p>
+          <input type="number" v-model="bids.timeNumber" required>
+          <select v-model="bids.timeType" required>
+            <option value="å¤©">è¯·é€‰æ‹©åˆ†ç±»</option>
+            <option v-for="type in bids.timeType" :value="type">
+              {{ type }}
+            </option>
+          </select>
+          <button @click="acceptBid">æˆ‘è¦ç«æ ‡</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {getTaskInfo} from "@/api/publisher";
 import {bid} from "@/api/performer";
 import {ElMessage} from "element-plus";
+import router from "@/router";
 
 export default {
   data() {
     return {
       task: {
         id:'',
-        title: 'ÈÎÎñÃû³Æ',
-        summary: 'ÈÎÎñ¼ò½é',
-        category:'ÈÎÎñ·ÖÀà',
+        title: 'ä»»åŠ¡åç§°',
+        summary: 'ä»»åŠ¡ç®€ä»‹',
         minBudget: 1000,
         maxBudget: 2000,
-        description: 'ÈÎÎñÃèÊö',
+        description: 'ä»»åŠ¡æè¿°',
         requiredSkills: [],
         bidPrice:0
       },
       publisher: {
-        username: '·¢²¼ÕßêÇ³Æ',
+        username: 'å‘å¸ƒè€…æ˜µç§°',
         avatar: 'avatar.png',
-        phone: 'µç»°ºÅÂë',
-        email:'ÓÊÏä'
+        phone: 'ç”µè¯å·ç ',
+        email:'é‚®ç®±'
       },
       bids:{
         bidPrice:0,
         timeNumber:0,
-        timeType:['·Ö','Ğ¡Ê±','Ìì','ÖÜ','ÔÂ']
+        timeType:['åˆ†','å°æ—¶','å¤©','å‘¨','æœˆ']
       },
       employeeId:'',
     };
@@ -93,13 +96,13 @@ export default {
       getTaskInfo(taskId).then(res=>{
         console.log(res.data);
         let data = res.data.data;
+        this.task.id = taskId;
         this.task.title = data.taskTitle;
         this.task.summary=data.taskProfile;
-        this.task.category = data.taskCategory.categoryName;
         this.task.minBudget = data.feesLow;
         this.task.maxBudget = data.feesHigh;
         this.task.description = data.taskDesc;
-        this.task.requiredSkills = data.skills.map(skill=>skill.skillName);
+        this.task.requiredSkills = data.skills;
         this.publisher.username = data.employer.username;
         this.publisher.phone = data.employer.phone;
         this.publisher.email = data.employer.email;
@@ -107,10 +110,17 @@ export default {
     },
     acceptBid() {
       bid(this.task.id,this.bids.bidPrice,this.bids.timeNumber,this.bids.timeType).then(res=>{
+        console.log(res.data);
         if(res.data.code === 0){
-          ElMessage.error(res.data.data);
+          ElMessage.error(res.data.msg);
+          setTimeout(() => {
+            router.replace('/choose_task');
+          }, 2000);
         }else{
-          ElMessage.success("¾º±ê³É¹¦");
+          ElMessage.success("ç«æ ‡æˆåŠŸ");
+          setTimeout(() => {
+            router.replace('/choose_task');
+          }, 2000);
         }
       })
     },
@@ -119,9 +129,49 @@ export default {
 </script>
 
 <style scoped>
+
+/* åŸºæœ¬çš„æ ·å¼ */
 .task-details {
-  max-width: 800px;
-  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  height: 300px;
+}
+.left_box{
+  display: inline-block;
+  width: 50%;
+}
+.right_box{
+  width: 50%;
+  float: right;
+}
+
+/* ä»»åŠ¡åç§°å’Œç®€ä»‹ */
+h1 {
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+/* å‘å¸ƒè€…ä¿¡æ¯ */
+.publisher-info {
+  margin-bottom: 20px;
+  image{
+    display: block;
+    float: left;
+  }
+  .spans{
+    display: inline-block;
+    margin-left: 30px;
+    span{
+      display: block;
+    }
+  }
 }
 
 .publisher-info img {
@@ -131,15 +181,96 @@ export default {
   margin-right: 10px;
 }
 
+.publisher-info span {
+  margin-right: 10px;
+}
+.budget-range{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* ä»»åŠ¡é¢„ç®—åŒºé—´ */
 .budget-range span {
-  margin-right: 20px;
+  font-weight: 400;
+  margin-right: 10px;
+}
+
+/* ä»»åŠ¡æè¿° */
+.task-description p {
+  margin-top: 20px;
+}
+
+/* æ‰€éœ€æŠ€èƒ½ */
+.required-skills h3 {
+  margin-bottom: 10px;
+}
+
+.required-skills ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.required-skills li {
+  margin-bottom: 5px;
+}
+
+/* æŠ•æ ‡åŒºåŸŸ */
+.bidding-area {
+  border-radius: 10px;
+  width: 300px;
+  height:230px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  padding: 20px;
+
+}
+
+.bidding-area input,
+.bidding-area select {
+  margin-bottom: 10px;
+  padding: 5px;
 }
 
 .bidding-area button {
-  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff; /* Green */
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 100px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.bidding-area button:hover {
+  background-color: #4390e3;
+}
+
+/* ä¿®æ­£selectçš„é»˜è®¤æ ·å¼ */
+select {
+  /* Reset default appearance */
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  /* Add custom arrow */
+  background-image:
+      linear-gradient(45deg, transparent 50%, gray 50%),
+      linear-gradient(135deg, gray 50%, transparent 50%);
+  background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+  background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+/* éšè—é»˜è®¤çš„ä¸‹æ‹‰ç®­å¤´ */
+select::-ms-expand {
+  display: none;
 }
 </style>
-
-<script setup lang="ts">
-import {Select} from "@element-plus/icons-vue";
-</script>

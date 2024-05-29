@@ -1,23 +1,39 @@
 <template>
   <div>
     <h1>已完成任务</h1>
-    <div class="bidding-list" v-if="doneTasks.length >0">
-      <a v-for="doneTask in doneTasks" :key="doneTask.id" class="task-list-item" @click="goToTask(doneTask.id)">
-        <h2>{{ doneTask.taskName }}</h2>
-        <p>竞标价格: ¥{{ doneTask.price }}</p>
-        <p>竞标时间：{{doneTask.bidTime}}</p>
-      </a>
+    <div class="grid">
+      <h3>
+        <el-icon><List style="color: #007bff"/></el-icon>
+        已完成任务
+      </h3>
+      <div v-if="doneTasks.length >0" >
+        <div v-for="doneTask in doneTasks" :key="doneTask.id" @click="goToTask(doneTask.id)" class="li-task">
+           <div class="left">
+             <p class="title">{{ doneTask.taskTitle }}</p>
+             <p >{{ doneTask.taskProfile }}</p>
+             <p class="time">
+               <el-icon><Clock /></el-icon>
+               完成时间：{{formatDate(doneTask.closeTime)}}
+             </p>
+           </div>
+          <div class="right">
+            <p>成交价格: ¥{{ doneTask.taskPrice}}</p>
+          </div>
+        </div>
+      </div>
+      <div v-else>您还没有完成的任务！！</div>
     </div>
-    <div v-else>您还没有完成的任务！！</div>
   </div>
 </template>
 
 <script>
-import {completedTask, submitTask} from "@/api/performer";
+import {completedTask} from "@/api/performer";
 import {ElMessage} from "element-plus";
 import router from "@/router";
+import {Clock, List} from "@element-plus/icons-vue";
 
 export default {
+  components: {Clock, List},
   data() {
     return {
       doneTasks: [],
@@ -30,38 +46,83 @@ export default {
   methods:{
     getDoneTask(){
       completedTask().then(res=>{
-        let data = res.data.data;
-        data.forEach(task=>{
-          //TODO
-          let bid={
-            id:task.id,
-            taskName:task.taskVo.taskTitle,
-            price:task.taskPrice,
-            bidTime:task.bidTime
-          }
-          this.doneTasks.push(bid);
-        })
+        this.doneTasks = res.data.data;
       })
     },
     //跳转到任务界面
     goToTask(taskId){
       console.log('', taskId);
-      router.replace(`/task?id=${taskId}`);
-    }
+      router.replace(`/task/${taskId}`);
+      // this.$router.go(0);
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+      };
+      return date.toLocaleString('zh-CN', options).replace(/\//g, '-').replace(',','');
+    },
   }
 };
 </script>
 
 <style scoped>
-.bidding-list {
-  /* 竞标列表的样式 */
-  margin-top: 20px;
+.grid{
+  margin: 30px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h3{
+    border-bottom: 1px solid #8c939d;
+    line-height: 50px;
+    padding-left: 10px;
+    font-size: 22px;
+  }
+  .li-task{
+    padding:10px 0 10px 20px;
+    border-bottom: 1px solid #b8c0ca;
+    .left{
+      display: inline-block;
+      p{
+        display: inline-block;
+        color: #515355;
+      }
+      .title{
+        display: block;
+        color: #252222;
+        font-size: 18px;
+      }
+      .time{
+        margin-left: 20px;
+      }
+    }
+    .right{
+      width:120px;
+      height:50px;
+      background-color: #ffffff;
+      float:right;
+      text-align: center;
+      line-height: 50px;
+      font-size: 18px;
+      margin-right: 40px;
+      border: 1px solid #2d8cf0;
+      border-radius: 8px;
+      p{
+        color: #2d8cf0;
+        font-size: 14px;
+      }
+    }
+  }
+  .li-task:last-child{
+    border-bottom:none;
+  }
 }
 
-.bid-item {
-  /* 单个竞标项的样式 */
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-}
 </style>

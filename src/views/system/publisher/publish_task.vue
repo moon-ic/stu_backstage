@@ -3,96 +3,78 @@
     <!-- 发布任务标题 -->
     <h2>发布任务</h2>
 
-    <!-- 任务表单 -->
-    <form @submit.prevent="submitTask">
-      <div>
-        <label>任务名称：</label>
-        <input type="text" v-model="task.name" required>
-      </div>
-      <div>
-        <label>任务分类：</label>
-        <select v-model="task.category" required>
-          <option value="">请选择分类</option>
-          <option v-for="category in categories" :key="category.id" :value="category.categoryName">
-            {{ category.categoryName }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <label>任务简介：</label>
-        <textarea v-model="task.summary" required></textarea>
-      </div>
-      <div>
-        <label>最高预算：</label>
-        <input type="number" v-model="task.maxBudget" required>
-      </div>
-      <div>
-        <label>最低预算：</label>
-        <input type="number" v-model="task.minBudget" required>
-      </div>
-      <div>
-        <label>所需技能：</label>
-        <input type="text" v-model="task.skill" required>
-        <button @click="addSkill">新增技能</button>
-        <div v-for="skill in skills" :key="skill.skillId">
-          {{ skill.skillName }}
-          <div @click="deleteSkill(skill.skillId)">删除</div>
+    <div class="grid publish_task">
+      <h3>
+        <el-icon><DocumentAdd style="color: #007bff"/></el-icon>
+        发布任务
+      </h3>
+      <!-- 任务表单 -->
+      <form @submit.prevent="submitTask">
+        <div class="taskName">
+          <label>任务名称：</label>
+          <input type="text" v-model="task.taskTitle" required>
         </div>
-      </div>
-      <div>
-        <label>任务描述：</label>
-        <textarea v-model="task.description" required></textarea>
-      </div>
-      <button type="submit">提交任务</button>
-    </form>
+        <div class="taskCategory">
+          <label>任务分类：</label>
+          <select v-model="task.categoryId" required>
+            <option value="">请选择分类</option>
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.categoryName }}
+            </option>
+          </select>
+        </div>
+        <div class="taskPro">
+          <label  style="position:relative;top: 10px">任务简介：</label>
+          <textarea v-model="task.taskProfile" required></textarea>
+        </div>
+        <div class="min">
+          <label>最低预算：</label>
+          <input type="number" v-model="task.feesLow" required>
+        </div>
+        <div class="max">
+          <label>最高预算：</label>
+          <input type="number" v-model="task.feesHigh" required>
+        </div>
+        <div class="taskSkills">
+          <label>所需技能：</label>
+          <input type="text" v-model="skills" required>
+        </div>
+        <div class="taskDesc">
+          <label>任务描述：</label>
+          <textarea v-model="task.taskDesc" required></textarea>
+        </div>
+      </form>
+      <button type="submit" class="btn">提交任务</button>
+    </div>
   </div>
 </template>
 
-<script>
-import {addSkill, deleteSkill, getTaskCategorys, getTaskInfo, submitTask, updateTask} from "@/api/publisher";
+<script lang="ts">
+import {addSkill, deleteSkill, getTaskCategorys,  submitTask, updateTask} from "@/api/publisher";
 import {ElMessage} from "element-plus";
 import router from "@/router";
+import {DocumentAdd} from "@element-plus/icons-vue";
 
 export default {
+  components: {DocumentAdd},
   data() {
     return {
       task: {
-        name: '',
-        category: '',
-        summary: '',
-        skill:'',
-        maxBudget: null,
-        minBudget: null,
-        description: '',
+        categoryId: '',
+        taskTitle: '',
+        taskProfile: '',
+        taskDesc: '',
+        feesLow: null,
+        feesHigh: null,
       },
-      skills: [],
+      skills: '',
       categories:[],
     };
   },
   created() {
-    // this.getTaskInfo()
     this.getTaskCategories();
   },
   methods: {
-    //如果是更改信息就要先获取所有值
-    getTaskInfo() {
-      let taskId = this.$router.params.id
-      if (taskId === null) {
-        console.log("新发布任务")
-      }
-      else{
-        getTaskInfo(taskId).then(res => {
-          let data = res.data.data
-          this.task.name = data.taskTitle;
-          this.task.category = data.taskCategory.categoryName;
-          this.task.summary = data.taskProfile;
-          this.task.minBudget = data.feesLow;
-          this.task.maxBudget = data.feesHigh;
-          this.task.skills = data.skills.map(skill => skill.skillName)
-          this.task.description = data.taskDesc;
-        })
-      }
-    },
     //获取到所有任务分类
     getTaskCategories() {
       getTaskCategorys().then(res => {
@@ -103,23 +85,13 @@ export default {
         }
       })
     },
-
     submitTask() {
-      let taskId = this.$router.params.id
-      // 在这里执行提交任务的操作，可以发送请求到服务器
-      if(!taskId){
-        submitTask(this.skills,this.task).then(res=>{
-          if(res.data.code === 1){
-            ElMessage.success(res.data.data);
-          }
-        })
-      }else{
-        updateTask(this.task).then(res=>{
-          if(res.data.code===1){
-            ElMessage.success(res.data.data);
-          }
-        })
-      }
+      submitTask(this.skills,this.task).then(res=>{
+        if(res.data.code === 1){
+          ElMessage.success(res.data.data);
+          this.resetForm();
+        }
+      })
       console.log('提交任务：', this.task);
       // 提交后重置表单
       this.resetForm();
@@ -136,32 +108,129 @@ export default {
       };
       this.skills=[];
     },
-    addSkill(){
-      addSkill(this.task.skill).then(res=>{
-        console.log(res.data);
-        let skillId = res.data.data;
-        let skill={
-          skillName:this.task.skill,
-          skillId:skillId
-        };
-        this.skills.push(skill);
-        ElMessage("添加技能成功");
-        this.task.skill='';
-      })
-    },
-    deleteSkill(skillId){
-      deleteSkill(skillId).then(res=>{
-        console.log(res.data);
-        if(res.data.code === 1){
-          this.skills = this.skills.filter(skill => skill.skillId !== skillId);
-          ElMessage(res.data.data);
-        }
-      })
-    }
+    // // addSkill(){
+    // //   addSkill(this.skill,this.).then(res=>{
+    // //     console.log(res.data);
+    // //     let skillId = res.data.data;
+    // //     let skill={
+    // //       skillName:this.task.skill,
+    // //       skillId:skillId
+    // //     };
+    // //     this.skills.push(skill);
+    // //     ElMessage("添加技能成功");
+    // //     this.task.skill='';
+    // //   })
+    // // },
+    // deleteSkill(skillId){
+    //   deleteSkill(skillId).then(res=>{
+    //     console.log(res.data);
+    //     if(res.data.code === 1){
+    //       this.skills = this.skills.filter(skill => skill.skillId !== skillId);
+    //       ElMessage(res.data.data);
+    //     }
+    //   })
+    // }
   }
 };
 </script>
 
 <style>
-/* 样式可以根据需求自行添加 */
+.publish_task{
+  h3{
+    border-bottom: none;
+  }
+  width: 85%;
+  height: 470px;
+  margin: 50px auto;
+  padding: 10px 20px;
+
+  .taskName,
+  .taskCategory
+  {
+    width: 50%;
+    height: 70px;
+    float: left;
+    label{
+      display: block;
+    }
+    select{
+      height: 45px;
+    }
+    input{
+      height: 40px;
+    }
+    input,select{
+      width: 90%;
+      display: block;
+    }
+  }
+  .taskPro,
+  .min,
+  .max,
+  .taskSkills,
+  .taskDesc
+  {
+    display: block;
+    width: 100%;
+    label{
+      display: block;
+    }
+  }
+  .taskPro{
+    textarea{
+      height: 40px;
+      width: 95%;
+    }
+  }
+  .min,
+  .max{
+    display:block;
+    width: 20%;
+    float: left;
+    margin-right: 20px;
+    label{
+      display: block;
+    }
+    input{
+      width: 100%;
+      height: 30px;
+    }
+  }
+  .taskSkills{
+    input{
+      width: 51%;
+      height: 30px;
+    }
+  }
+  .taskDesc{
+    width: 96%;
+    height: 100px;
+    textarea{
+    height:100px;
+    width: 100%;
+  }
+  }
+}
+input,
+textarea,
+select
+{
+  border: 1px solid #d7d8da;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.btn{
+  margin-left:30px;
+  margin-top: 40px;
+  background-color: #2d8cf0;
+  border: none;
+  color:white;
+  height: 40px;
+  width: 80px;
+  line-height: 30px;
+}
+
+
+
 </style>

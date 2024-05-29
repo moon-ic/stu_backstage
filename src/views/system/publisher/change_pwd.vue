@@ -21,7 +21,7 @@
   </template>
   
   <script>
-  import {updatePwd} from '@/api/publisher/index'
+  import {updatePwd} from '@/api/publisher'
   import {ElMessage} from "element-plus";
   export default {
     data() {
