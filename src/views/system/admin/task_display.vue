@@ -39,6 +39,7 @@ let columns = ref([
         {
             prop: 'taskStatus',
             label: '任务状态',
+            width: 140
         },
         {
             prop: 'taskPrice',
