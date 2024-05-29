@@ -91,6 +91,7 @@ const submitData = async (row) => {
         rowData.value = { ...row };
         const { categoryName, categoryImg } = rowData.value;
         await addTaskCategory(categoryName, categoryImg || ' ');
+        if(isEdit.value)await delTaskCategory(row.id);
         ElMessage.success('新增成功');
         closeDialog();
         getData();
