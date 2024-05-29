@@ -83,8 +83,10 @@ import { Delete, Edit, View, Refresh } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
 const statusType={
     '-1':'待审核',
-    '0':'待完成',
-    '3':'已完成'
+    '0':'已审核，待接受',
+    '1':'已接受，待完成',
+    '2':'已完成，待验收',
+    '3':'已验收'
 }
 
 const props = defineProps({
