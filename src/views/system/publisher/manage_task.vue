@@ -1,176 +1,60 @@
 <template>
-<<<<<<< HEAD
-    <div>
-        <TableSearch :query="query" :options="searchOpt" :search="handleSearch" />
-        <div class="container">
-            <TableCustom :columns="columns" :tableData="tableData" :total="page.total" :viewFunc="handleView"
-                :delFunc="handleDelete" :page-change="changePage" :editFunc="handleEdit">
-                <template #toolbarBtn>
-                    <el-button type="warning" :icon="CirclePlusFilled" @click="visible = true">����</el-button>
-                </template>
-            </TableCustom>
-
-        </div>
-        <el-dialog :title="isEdit ? '�༭' : '����'" v-model="visible" width="700px" destroy-on-close
-            :close-on-click-modal="false" @close="closeDialog">
-            <TableEdit :form-data="rowData" :options="options" :edit="isEdit" :update="updateData" />
-        </el-dialog>
-        <el-dialog title="�鿴����" v-model="visible1" width="700px" destroy-on-close>
-            <TableDetail :data="viewData"></TableDetail>
-        </el-dialog>
-    </div>
-</template>
-
-<script setup lang="ts" name="system-user">
-import { ref, reactive } from 'vue';
-import { ElMessage } from 'element-plus';
-import { CirclePlusFilled } from '@element-plus/icons-vue';
-import { User } from '@/types/user';
-import { fetchUserData } from '@/api';
-import TableCustom from '@/components/table-custom.vue';
-import TableDetail from '@/components/table-detail.vue';
-import TableSearch from '@/components/table-search.vue';
-import { FormOption, FormOptionList } from '@/types/form-option';
-
-// ��ѯ���
-const query = reactive({
-    name: '',
-});
-const searchOpt = ref<FormOptionList[]>([
-    { type: 'input', label: '�û�����', prop: 'name' }
-])
-const handleSearch = () => {
-    changePage(1);
-};
-
-// �������
-let columns = ref([
-    { type: 'index', label: '���', width: 55, align: 'center' },
-    { prop: 'name', label: '�û���' },
-    { prop: 'phone', label: '�ֻ���' },
-    { prop: 'role', label: '��ɫ' },
-    { prop: 'operator', label: '����', width: 250 },
-])
-const page = reactive({
-    index: 1,
-    size: 10,
-    total: 0,
-})
-const tableData = ref<User[]>([]);
-const getData = async () => {
-    const res = await fetchUserData()
-    tableData.value = res.data.list;
-    page.total = res.data.pageTotal;
-};
-getData();
-
-const changePage = (val: number) => {
-    page.index = val;
-    getData();
-};
-
-// ����/�༭�������
-let options = ref<FormOption>({
-    labelWidth: '100px',
-    span: 12,
-    list: [
-        { type: 'input', label: '�û���', prop: 'name', required: true },
-        { type: 'input', label: '�ֻ���', prop: 'phone', required: true },
-        { type: 'input', label: '����', prop: 'password', required: true },
-        { type: 'input', label: '����', prop: 'email', required: true },
-        { type: 'input', label: '��ɫ', prop: 'role', required: true },
-    ]
-})
-const visible = ref(false);
-const isEdit = ref(false);
-const rowData = ref({});
-const handleEdit = (row: User) => {
-    rowData.value = { ...row };
-    isEdit.value = true;
-    visible.value = true;
-};
-const updateData = () => {
-    closeDialog();
-    getData();
-};
-
-const closeDialog = () => {
-    visible.value = false;
-    isEdit.value = false;
-};
-
-// �鿴���鵯�����
-const visible1 = ref(false);
-const viewData = ref({
-    row: {},
-    list: []
-});
-const handleView = (row: User) => {
-    viewData.value.row = { ...row }
-    viewData.value.list = [
-        {
-            prop: 'id',
-            label: '�û�ID',
-        },
-        {
-            prop: 'name',
-            label: '�û���',
-        },
-        {
-            prop: 'password',
-            label: '����',
-        },
-        {
-            prop: 'email',
-            label: '����',
-        },
-        {
-            prop: 'phone',
-            label: '�绰',
-        },
-        {
-            prop: 'role',
-            label: '��ɫ',
-        },
-        {
-            prop: 'date',
-            label: 'ע������',
-        },
-    ]
-    visible1.value = true;
-};
-
-// ɾ�����
-const handleDelete = (row: User) => {
-    ElMessage.success('ɾ���ɹ�');
-}
-</script>
-
-<style scoped></style>
-=======
   <div>
+<!--    获取到发布者所有任务-->
     <h2>我的任务</h2>
 
     <div v-if="tasks.length > 0">
       <ul>
         <li v-for="task in tasks" :key="task.id">
           <div>
-<!--         status===1 任务已完成  0 任务未完成-->
             <!-- 任务名字-->
-            <h3>{{task.title }}</h3>
-            <p>完成时间:{{ task.publishTime }}</p>
-            <p>投标人数：{{ task.biddersCount }}</p>
-            <p>平均竞标价格{{ task.averageBid }}</p>
-            <p v-if="task.status ===0 ">任务预算：{{ task.budget }}</p>
-            <p v-else>成交价格：{{task.bid}}</p>
-          </div>
-          <div v-if="task.status === 0">
-            <button @click="manageBidders(task.id)">管理竞标者</button>
-            <button @click="editTask(task.id)">更改任务</button>
-            <button @click="deleteTask(task.id)">删除任务</button>
-          </div>
-          <div v-else>
-            <button @click="browseBidders(task.id)">浏览执行者信息</button>
+            <a @click="goToTask(task.id)">{{task.taskTitle}}</a>
+            <!--审核失败-->
+            <div v-if="task.taskStatus===-2||task.taskStatus===-1">
+              <p v-if="task.taskStatus===-2">审核失败</p>
+              <p v-else-if="task.taskStatus===-1">未审核</p>
+              <p>发布时间：{{task.createTime}}</p>
+              <el-button @click="editTask(task.id)">修改任务</el-button>
+              <el-button  @click="deleteTask(task.id)">删除</el-button>
+              <div>任务预算：￥{{task.feesLow}}-￥{{task.feesHigh}}</div>
+            </div>
+            <div v-if="task.taskStatus===0">
+              <div v-if="task.bidVos.length > 0">
+                <p>还没有人中标</p>
+                <p>发布时间：{{task.createTime}}</p>
+                <el-button @click="manageBidders(task.id)">管理竞标者</el-button>
+                <el-button @click="editTask(task.id)">修改任务</el-button>
+                <el-button @click="deleteTask(task.id)">删除</el-button>
+                <div>任务预算：￥{{task.feesLow}}-￥{{task.feesHigh}}</div>
+              </div>
+              <div v-else>
+                <p>还没有人中标</p>
+                <p>发布时间：{{task.createTime}}</p>
+                <el-button @click="editTask(task.id)">修改任务</el-button>
+                <el-button @click="deleteTask(task.id)">删除</el-button>
+                <div>任务预算：￥{{task.feesLow}}-￥{{task.feesHigh}}</div>
+              </div>
+            </div>
+             <!-- 已经接受投标-->
+            <div v-if="task.taskStatus===1">
+              <p>已接受投标</p>
+              <p>发布时间：{{task.createTime}}</p>
+              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
+              <div>成交价格：￥{{task.bidPrice}}</div>
+            </div>
+            <div v-if="task.taskStatus===2">
+              <p>已接受投标</p>
+              <p>发布时间：{{task.createTime}}</p>
+              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
+              <el-button @click="taskCheck(task.id)">确认完成任务</el-button>
+              <div>成交价格：￥{{task.bidPrice}}</div>
+            </div>
+            <div v-if="task.taskStatus===3">
+              <p>已完成</p>
+              <p>完成时间：{{task.createTime}}</p>
+              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
+              <div>成交价格：￥{{task.bidPrice}}</div>
+            </div>
           </div>
         </li>
       </ul>
@@ -182,32 +66,72 @@ const handleDelete = (row: User) => {
 </template>
 
 <script>
+import {deleteTask, getAllTasks, taskSuccess} from '@/api/publisher'
+import {ElMessage} from "element-plus";
+import router from "@/router";
 export default {
   data() {
     return {
-      tasks: [
-        { id: 1, title: '这是1', publishTime: '2024-05-21', biddersCount: 3, averageBid: '$1000', budget: '$1500' },
-        { id: 2, title: '这是2', publishTime: '2024-05-20', biddersCount: 2, averageBid: '$1200', budget: '$2000' },
-        { id: 3, title: '这首3', publishTime: '2024-05-19', biddersCount: 1, averageBid: '$900', budget: '$1800' }
-      ]
+      tasks: []
     };
   },
+  created() {
+    this.getMyTasks();
+  },
   methods: {
-    manageBidders(taskId) {
-      // 管理竞标者
-      console.log('?????????????ID??', taskId);
+    //获得所有任务
+    getMyTasks(){
+      getAllTasks().then(res=>{
+        console.log(res);
+        this.tasks = res.data.data
+      })
     },
+    //跳转到任务界面
+    goToTask(taskId){
+      console.log('', taskId);
+      router.replace(`/task/${taskId}`);
+    },
+    //管理竞标者 跳转到管理竞标者页面
+    manageBidders(taskId) {
+      console.log('', taskId);
+      router.replace(`/manage_bidders/${taskId}`);
+    },
+    //修改任务信息， 跳转到任务信息界面
     editTask(taskId) {
       // 修改任务
-      console.log('???????????ID??', taskId);
+      router.replace(`/publish_task/${taskId}`)
+      console.log('', taskId);
     },
+
+    //删除任务
     deleteTask(taskId) {
-      // 删除任务
-      console.log('???????????ID??', taskId);
+      deleteTask(taskId).then(res=>{
+        if(res.data.code === 1){
+          ElMessage.success('删除任务成功');
+        }
+      })
+      console.log('删除任务Id', taskId);
     },
-    browseBidders(tsakId){
-      //浏览雇员信息
-      console.log("任务id",taskId)
+
+    //当已经成交的时候，发送这个请求//浏览雇员主页
+    browseBidders(taskId){
+      this.tasks.forEach(task => {
+        if(task.id === taskId){
+          let performerId = task.employee.id
+          router.push(`/performer?id=${performerId}`)
+        }
+      });
+    },
+    //确认完成任务
+    taskCheck(taskId){
+      taskSuccess(taskId).then(res=>{
+        console.log(res.data)
+        if(res.data.code===1){
+          ElMessage.success("操作成功");
+        }else{
+          ElMessage.error("操作失败");
+        }
+      })
     }
   }
 };
@@ -216,4 +140,7 @@ export default {
 <style>
 /* ????????????????????? */
 </style>
->>>>>>> master
+
+
+
+<!--任务状态-->

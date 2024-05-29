@@ -1,200 +1,84 @@
 <template>
   <div>
-<<<<<<< HEAD
-    <div class="container">
-      <TableCustom :columns="columns" :tableData="menuData" row-key="index" :has-pagination="false"
-                   :viewFunc="handleView" :delFunc="handleDelete" :editFunc="handleEdit">
-        <template #toolbarBtn>
-          <el-button type="warning" :icon="CirclePlusFilled" @click="visible = true">新增</el-button>
-        </template>
-        <template #icon="{ rows }">
-          <el-icon>
-            <component :is="rows.icon"></component>
-          </el-icon>
-        </template>
-      </TableCustom>
-
+    <h1>未完成任务</h1>
+    <div class="bidding-list" >
+      <div v-for="unDoTask in unDoTasks" :key="unDoTask.id" class="task-list-item"  v-if="status===1">
+        <h2 @click="goToTask(unDoTask.id)">{{ unDoTask.taskName }}</h2>
+        <p>我的出价: ¥{{ unDoTask.price }}</p>
+        <p>完成时间: {{ unDoTask.deliveryTime }}</p>
+        <button @click="completeTask(unDoTask.id)">完成任务</button>
+      </div>
+      <div v-else>您没有未完成的任务！！</div>
     </div>
-    <el-dialog :title="isEdit ? '编辑' : '新增'" v-model="visible" width="700px" destroy-on-close
-               :close-on-click-modal="false" @close="closeDialog">
-      <TableEdit :form-data="rowData" :options="options" :edit="isEdit" :update="updateData">
-        <template #parent>
-          <el-cascader v-model="rowData.pid" :options="cascaderOptions" :props="{ checkStrictly: true }"
-                       clearable />
-        </template>
-      </TableEdit>
-    </el-dialog>
-    <el-dialog title="查看详情" v-model="visible1" width="700px" destroy-on-close>
-      <TableDetail :data="viewData">
-        <template #icon="{ rows }">
-          <el-icon>
-            <component :is="rows.icon"></component>
-          </el-icon>
-        </template>
-      </TableDetail>
-    </el-dialog>
-  </div>
-</template>
-
-<script setup lang="ts" name="system-menu">
-import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
-import { CirclePlusFilled } from '@element-plus/icons-vue';
-import { Menus } from '@/types/menu';
-import TableCustom from '@/components/table-custom.vue';
-import TableDetail from '@/components/table-detail.vue';
-import { FormOption } from '@/types/form-option';
-import { menuData } from '@/components/menu';
-
-// 表格相关
-let columns = ref([
-  { prop: 'title', label: '菜单名称', align: 'left' },
-  { prop: 'icon', label: '图标' },
-  { prop: 'index', label: '路由路径' },
-  { prop: 'permiss', label: '权限标识' },
-  { prop: 'operator', label: '操作', width: 250 },
-])
-
-const getOptions = (data: any) => {
-  return data.map(item => {
-    const a: any = {
-      label: item.title,
-      value: item.id,
-    }
-    if (item.children) {
-      a.children = getOptions(item.children)
-    }
-    return a
-  })
-}
-const cascaderOptions = ref(getOptions(menuData));
-
-
-// 新增/编辑弹窗相关
-let options = ref<FormOption>({
-  labelWidth: '100px',
-  span: 12,
-  list: [
-    { type: 'input', label: '菜单名称', prop: 'title', required: true },
-    { type: 'input', label: '路由路径', prop: 'index', required: true },
-    { type: 'input', label: '图标', prop: 'icon' },
-    { type: 'input', label: '权限标识', prop: 'permiss' },
-    { type: 'parent', label: '父菜单', prop: 'parent' },
-  ]
-})
-const visible = ref(false);
-const isEdit = ref(false);
-const rowData = ref<any>({});
-const handleEdit = (row: Menus) => {
-  rowData.value = { ...row };
-  isEdit.value = true;
-  visible.value = true;
-};
-const updateData = () => {
-  closeDialog();
-};
-
-const closeDialog = () => {
-  visible.value = false;
-  isEdit.value = false;
-};
-
-// 查看详情弹窗相关
-const visible1 = ref(false);
-const viewData = ref({
-  row: {},
-  list: []
-});
-const handleView = (row: Menus) => {
-  viewData.value.row = { ...row }
-  viewData.value.list = [
-    {
-      prop: 'id',
-      label: '菜单ID',
-    },
-    {
-      prop: 'pid',
-      label: '父菜单ID',
-    },
-    {
-      prop: 'title',
-      label: '菜单名称',
-    },
-    {
-      prop: 'index',
-      label: '路由路径',
-    },
-    {
-      prop: 'permiss',
-      label: '权限标识',
-    },
-    {
-      prop: 'icon',
-      label: '图标',
-    },
-  ]
-  visible1.value = true;
-};
-
-// 删除相关
-const handleDelete = (row: Menus) => {
-  ElMessage.success('删除成功');
-}
-</script>
-
-<style scoped></style>
-=======
-    <h1>未完成的任务</h1>
-    <ul>
-      <li v-for="task in tasks" :key="task.id">
-        <router-link :to="`/task/${task.id}`">{{ task.name }}</router-link>
-        <span>竞标价格: {{ task.bidPrice }}</span>
-        <span>交货时间: {{ task.deliveryDate }}</span>
-        <button @click="abandonBid(task.id)">放弃竞标</button>
-      </li>
-    </ul>
   </div>
 </template>
 
 <script>
+import {unCompletedTask, submitTask} from "@/api/performer";
+import {ElMessage} from "element-plus";
+import router from "@/router";
+
 export default {
   data() {
     return {
-      tasks: [
-        { id: 1, name: '任务一', bidPrice: '50元', deliveryDate: '2023-06-01' },
-        { id: 2, name: '任务二', bidPrice: '75元', deliveryDate: '2023-06-05' },
-        { id: 3, name: '任务三', bidPrice: '90元', deliveryDate: '2023-06-10' },
-        // 你可以根据需要添加更多任务
-      ]
+      status:0,
+      unDoTasks: [],
     };
   },
-  methods: {
-    abandonBid(taskId) {
-      this.tasks = this.tasks.filter(task => task.id !== taskId);
-      // 你可以在这里添加更多逻辑，比如发送请求到服务器以放弃竞标
-      console.log(`已放弃任务 ${taskId} 的竞标`);
+  created(){
+    this.getUndoTask();
+  },
+  inject:['reload'],
+  methods:{
+    getUndoTask(){
+      unCompletedTask().then(res=>{
+        let data = res.data.data;
+        if(data.length<=0){
+          this.status = 0;
+        }else{
+          this.status = 1;
+          data.forEach(task=>{
+            //TODO
+            let undo={
+              id:task.id,
+              taskName:task.taskVo.taskTitle,
+              price:task.bidPrice,
+              deliveryTime:task.deliveryDesc
+            }
+            this.unDoTasks.push(undo);
+          })
+        }
+
+      })
+    },
+    //跳转到任务界面
+    goToTask(taskId){
+      console.log('', taskId);
+      router.replace(`/task?id=${taskId}`);
+    },
+    completeTask(taskId){
+      submitTask(taskId).then(res=>{
+        if(res.data.code===1){
+          this.doneTasks = this.doneTasks.filter(task => task.id !== taskId);
+          ElMessage.success(res.data.data);
+          this.reload();
+        }
+      })
     }
   }
 };
 </script>
 
-<style>
-/* 你可以根据需要添加样式 */
-ul {
-  list-style-type: none;
-  padding: 0;
+<style scoped>
+.bidding-list {
+  /* 竞标列表的样式 */
+  margin-top: 20px;
 }
 
-li {
+.bid-item {
+  /* 单个竞标项的样式 */
+  border: 1px solid #ddd;
+  padding: 10px;
   margin-bottom: 10px;
 }
-
-span {
-  margin-right: 10px;
-}
-
-button {
-  margin-left: 10px;
-}
 </style>
->>>>>>> master

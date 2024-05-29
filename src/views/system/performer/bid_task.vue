@@ -1,32 +1,58 @@
 <template>
   <div>
     <h1>我的竞标任务</h1>
-    <div class="bidding-list">
-      <div v-for="(bid, index) in bids" :key="index" class="bid-item">
+    <div class="bidding-list" v-if="bids.length>0">
+      <div v-for="bid in bids" :key="bid.id" class="bid-item" >
         <h2>{{ bid.taskName }}</h2>
         <p>竞标价格: ¥{{ bid.price }}</p>
         <p>交货时间: {{ bid.deliveryTime }}</p>
         <!-- 这里可以添加其他您需要的组件或元素，比如提交竞标按钮等 -->
+        <button @click="deleteBid(bid.id)">删除</button>
       </div>
     </div>
+    <div v-else>您还没有竞标的任务！！</div>
   </div>
 </template>
 
 <script>
+import {deleteBid, myBids} from "@/api/performer";
+import {ElMessage} from "element-plus";
+
 export default {
   data() {
     return {
-      bids: [
-        {
-          taskName: '构建一个html界面',
-          price: 135.0,
-          deliveryTime: '1小时',
-          // 其他竞标相关的数据...
-        },
-        // 您可以根据需要添加更多竞标数据
-      ],
+      bids: [],
     };
   },
+  created(){
+     this.getMyBids();
+  },
+  inject:['reload'],
+  methods:{
+    getMyBids(){
+      myBids().then(res=>{
+        let data = res.data.data;
+        data.forEach(task=>{
+          let bid={
+            id:task.id,
+            taskName:task.task.taskTitle,
+            price:task.bidPrice,
+            deliveryTime:task.deliveryDesc
+          }
+          this.bids.push(bid);
+        })
+      })
+    },
+    deleteBid(bidId){
+      deleteBid(bidId).then(res=>{
+        if(res.data.code===1){
+          this.bids = this.bids.filter(bid => bid.id !== bidId);
+          ElMessage.success(res.data.data);
+          this.reload();
+        }
+      })
+    }
+  }
 };
 </script>
 

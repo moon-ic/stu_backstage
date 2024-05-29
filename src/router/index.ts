@@ -90,7 +90,6 @@ const routes: RouteRecordRaw[] = [
 					noAuth: true
 				},
 				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
-				// component: Home,
 			},
 			
 			{
@@ -129,8 +128,15 @@ const routes: RouteRecordRaw[] = [
 				},
 				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/publisher/change_pwd.vue" ),
 			},
-			
-			
+			{
+				path: "/manage_bidders/:id",
+				name: "manage_bidders",
+				meta: {
+					title: "管理竞标者",
+					noAuth: true
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/publisher/manage_bidders.vue" ),
+			},
 
 			// 执行者
 			{
@@ -152,8 +158,6 @@ const routes: RouteRecordRaw[] = [
 				component: () => import(/* webpackChunkName: "system-role" */ "../views/system/performer/star.vue")
 			},
 			{
-<<<<<<< HEAD
-=======
 				path:"/choose_task",
 				name:"choose_task",
 				meta:{
@@ -163,7 +167,6 @@ const routes: RouteRecordRaw[] = [
 				component:() => import("../views/system/performer/choose_task.vue")
 			},
 			{
->>>>>>> master
 				path:"/done_task",
 				name:"done_task",
 				meta:{
@@ -208,6 +211,29 @@ const routes: RouteRecordRaw[] = [
 				},
 				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/performer/change_pwd.vue" ),
 			},
+
+			//执行者首页
+			{
+				path: "/performer/:id",
+				name: "performer",
+				meta: {
+					title: "执行者主页",
+					noAuth: '51'
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/task.vue" ),
+			},
+
+			//任务信息页
+			{
+				path: "/task/:id",
+				name: "task",
+				meta: {
+					title: "任务页面",
+					noAuth: '52'
+				},
+				component:()=>import(/* webpackChunkName: "dashboard" */ "../views/system/task.vue" ),
+			},
+
 
 			// else
 			{
@@ -383,6 +409,8 @@ const routes: RouteRecordRaw[] = [
 			}
 		]
 	},
+
+
 	{
 		path: "/login",
 		meta: {

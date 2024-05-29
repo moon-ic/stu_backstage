@@ -1,258 +1,132 @@
 <template>
-  <div>
-<<<<<<< HEAD
-    <div class="container">
-      <TableCustom :columns="columns" :tableData="menuData" row-key="index" :has-pagination="false"
-                   :viewFunc="handleView" :delFunc="handleDelete" :editFunc="handleEdit">
-        <template #toolbarBtn>
-          <el-button type="warning" :icon="CirclePlusFilled" @click="visible = true">新增</el-button>
-        </template>
-        <template #icon="{ rows }">
-          <el-icon>
-            <component :is="rows.icon"></component>
-          </el-icon>
-        </template>
-      </TableCustom>
+  <div class="user-edit">
+    <h1>编辑用户信息</h1>
+    <form @submit.prevent="submitForm">
+      <!-- 用户名 -->
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input type="text" v-model="user.username" id="username" required>
+      </div>
 
-    </div>
-    <el-dialog :title="isEdit ? '编辑' : '新增'" v-model="visible" width="700px" destroy-on-close
-               :close-on-click-modal="false" @close="closeDialog">
-      <TableEdit :form-data="rowData" :options="options" :edit="isEdit" :update="updateData">
-        <template #parent>
-          <el-cascader v-model="rowData.pid" :options="cascaderOptions" :props="{ checkStrictly: true }"
-                       clearable />
-        </template>
-      </TableEdit>
-    </el-dialog>
-    <el-dialog title="查看详情" v-model="visible1" width="700px" destroy-on-close>
-      <TableDetail :data="viewData">
-        <template #icon="{ rows }">
-          <el-icon>
-            <component :is="rows.icon"></component>
-          </el-icon>
-        </template>
-      </TableDetail>
-    </el-dialog>
+      <!-- 电子邮件 -->
+      <div class="form-group">
+        <label for="email">电子邮件</label>
+        <input type="email" v-model="user.email" id="email" required>
+      </div>
+
+      <!-- 电话号码 -->
+      <div class="form-group">
+        <label for="phone">电话号码</label>
+        <input type="text" v-model="user.phone" id="phone" required>
+      </div>
+
+      <!-- 个性签名 -->
+      <div class="form-group">
+        <label for="tagline">个性签名</label>
+        <input type="text" v-model="user.tagline" id="tagline">
+      </div>
+<!--       TODO 添加技能删除技能-->
+      <div class="skills">
+        <h3>拥有技能</h3>
+        <ul>
+          <li v-for="skill in user.skills" :key="skill.id">{{ skill.skillName }}</li>
+        </ul>
+      </div>
+
+      <!-- 简介 -->
+      <div class="form-group">
+        <label for="profile">简介</label>
+        <textarea v-model="user.profile" id="profile"></textarea>
+      </div>
+
+      <!-- 提交按钮 -->
+      <button type="submit">保存信息</button>
+    </form>
   </div>
 </template>
-
-<script setup lang="ts" name="system-menu">
-import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
-import { CirclePlusFilled } from '@element-plus/icons-vue';
-import { Menus } from '@/types/menu';
-import TableCustom from '@/components/table-custom.vue';
-import TableDetail from '@/components/table-detail.vue';
-import { FormOption } from '@/types/form-option';
-import { menuData } from '@/components/menu';
-
-// 表格相关
-let columns = ref([
-  { prop: 'title', label: '菜单名称', align: 'left' },
-  { prop: 'icon', label: '图标' },
-  { prop: 'index', label: '路由路径' },
-  { prop: 'permiss', label: '权限标识' },
-  { prop: 'operator', label: '操作', width: 250 },
-])
-
-const getOptions = (data: any) => {
-  return data.map(item => {
-    const a: any = {
-      label: item.title,
-      value: item.id,
-    }
-    if (item.children) {
-      a.children = getOptions(item.children)
-    }
-    return a
-  })
-}
-const cascaderOptions = ref(getOptions(menuData));
-
-
-// 新增/编辑弹窗相关
-let options = ref<FormOption>({
-  labelWidth: '100px',
-  span: 12,
-  list: [
-    { type: 'input', label: '菜单名称', prop: 'title', required: true },
-    { type: 'input', label: '路由路径', prop: 'index', required: true },
-    { type: 'input', label: '图标', prop: 'icon' },
-    { type: 'input', label: '权限标识', prop: 'permiss' },
-    { type: 'parent', label: '父菜单', prop: 'parent' },
-  ]
-})
-const visible = ref(false);
-const isEdit = ref(false);
-const rowData = ref<any>({});
-const handleEdit = (row: Menus) => {
-  rowData.value = { ...row };
-  isEdit.value = true;
-  visible.value = true;
-};
-const updateData = () => {
-  closeDialog();
-};
-
-const closeDialog = () => {
-  visible.value = false;
-  isEdit.value = false;
-};
-
-// 查看详情弹窗相关
-const visible1 = ref(false);
-const viewData = ref({
-  row: {},
-  list: []
-});
-const handleView = (row: Menus) => {
-  viewData.value.row = { ...row }
-  viewData.value.list = [
-    {
-      prop: 'id',
-      label: '菜单ID',
-    },
-    {
-      prop: 'pid',
-      label: '父菜单ID',
-    },
-    {
-      prop: 'title',
-      label: '菜单名称',
-    },
-    {
-      prop: 'index',
-      label: '路由路径',
-    },
-    {
-      prop: 'permiss',
-      label: '权限标识',
-    },
-    {
-      prop: 'icon',
-      label: '图标',
-    },
-  ]
-  visible1.value = true;
-};
-
-// 删除相关
-const handleDelete = (row: Menus) => {
-  ElMessage.success('删除成功');
-}
-</script>
-
-<style scoped></style>
-=======
-    <h2>个人信息编辑</h2>
-
-    <!-- 账户信息编辑部分 -->
-    <div>
-      <h3>账户信息</h3>
-      <div>
-        <label>用户名：</label>
-        <input type="text" v-model="accountInfo.username">
-      </div>
-      <div>
-        <label>手机号：</label>
-        <input type="text" v-model="accountInfo.phoneNumber">
-      </div>
-      <div>
-        <label>邮箱：</label>
-        <input type="email" v-model="accountInfo.email">
-      </div>
-    </div>
-
-    <!-- 个人简介编辑部分 -->
-    <div>
-      <h3>我的简介</h3>
-      <div>
-        <label>标语：</label>
-        <input type="text" v-model="profile.motto">
-      </div>
-      <div>
-        <label>技能：</label>
-        <textarea v-model="profile.skills"></textarea>
-      </div>
-      <div>
-        <label>自我介绍：</label>
-        <textarea v-model="profile.introduction"></textarea>
-      </div>
-    </div>
-    <!-- 保存按钮 -->
-    <button @click="saveChanges">保存修改</button>
-  </div>
-</template>
-
 <script>
+
+
 import {getAllInfo,saveAllInfo} from "@/api/performer";
-import {ref} from "vue";
-
-
-// const accountInfo = ref({
-//   username:'',
-//   phoneNumber:'',
-//   email:''
-// });
-// const profile = ref({
-//   motto:'',
-//   skills:[],
-//   introduction:''
-// });
+import {ElMessage} from "element-plus";
 
 export default {
   data() {
     return {
-      accountInfo: {
+      user: {
+        id: '',
         username: '',
-        phoneNumber: '',
-        email: ''
+        email: '',
+        phone: '',
+        tagline: '',
+        profile: '',
+        skills: [],
       },
-      profile: {
-        motto: '',
-        skills: '',
-        introduction: ''
-      }
     };
   },
-  async created() {
-    try {
-      const response = await getAllInfo();
-      if (response.code===1) {
-        this.accountInfo.username = response.data.username;
-        this.accountInfo.phoneNumber=response.data.phone;
-        this.accountInfo.email=response.data.email;
-        this.profile.motto = response.data.tagline;
-        this.profile.skills = response.data.skills;
-        this.profile.introduction = response.data.profile;
-      }
-    } catch (error) {
-      console.error('Error fetching user info:', error);
-    }
+  created(){
+    this.getInfo();
   },
   methods: {
-    async saveChanges() {
-      let data={
-        username : this.accountInfo.username,
-        email : this.accountInfo.email,
-        phone : this.accountInfo.phoneNumber,
-        tagline: this.profile.motto,
-        skills : this.profile.skills,
-        profile : this.profile.introduction
-      };
-
-      try{
-        const response = await saveAllInfo(data);
-        if(response.code === 1){
-          console.log('账户信息：', this.accountInfo);
-          console.log('个人简介：', this.profile);
-          alert('修改已保存！');
+    getInfo() {
+      //获取performer主页信息
+      getAllInfo().then(res => {
+        console.log(res.data)
+        let data = res.data.data;
+        console.log(res.data);
+        this.user.id = data.id;
+        this.user.username = data.username;
+        this.user.email = data.email;
+        this.user.phone = data.phone;
+        this.user.tagline = data.tagline;
+        this.user.profile = data.profile;
+        this.user.skills = data.skills;
+      })
+    },
+    submitForm() {
+      console.log('Updated user data:', this.user);
+      saveAllInfo(this.user).then(res=>{
+        console.log(res.data);
+        if(res.data.code===1){
+          ElMessage("保存成功");
         }
-      }catch (error){
-        console.error('信息未修改成功',error);
-      }
-    }
-  }
+      })
+    },
+  },
 };
 </script>
->>>>>>> master
+
+<style scoped>
+.user-edit {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.avatar-preview {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+</style>

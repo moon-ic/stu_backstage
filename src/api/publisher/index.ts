@@ -1,63 +1,67 @@
 import request from '../../utils/request';
+import qs from "qs";
+
+
+export const logout_publisher = () => {
+    return request({
+        url:'./employer/logout',
+        method:'post',
+    });
+};
 
 
 //获取雇主信息
 export const getPublisherInfo = () => {
+    let publisher_id = localStorage.getItem('publisher-id');
     return request({
-        url:'./employer/getInfo',
+        url:'./employer/getInfo?employerId=' + publisher_id,
         method:'get'
     });
 };
+
 //保存雇主信息
-export const savePublisherInfo = () => {
+export const savePublisherInfo = (employer) => {
     return request({
-        url:'./employer/getInfo',
-        method:'get'
+        url:'./employer/saveInfo',
+        method:'post',
+        data:employer
     });
 };
 
 
 //更新密码
 export const updatePwd = (password,newPassword) => {
+    let publisher_id = localStorage.getItem('publisher-id');
     return request({
-        url:'./employer/updatePwd',
-        method: 'post',
-        data:{
-            password,
-            newPassword
-        }
+        url:'./employer/updatePwd?employerId='+publisher_id+'&&password='+ password+'&&newPassword=' + newPassword,
+        method: 'get',
     });
 };
-
-export const logout = () => {
-    return request({
-        url: './employer/logout',
-        method: 'get'
-    });
-};
-
 
 //get发布任务的数量
 export const getPublishTaskNum = () => {
     return request({
         url:'./employer/taskNum',
-        method:'get'
+        method:'post'
     });
 };
+
 //获得竞标的总数量
 export const getTaskBidNum = () => {
     return request({
         url:'./employer/peoNum',
-        method:'get'
+        method:'post'
     });
 };
+
 //获得所有完成任务
 export const getTaskComple = () => {
     return request({
         url:'./employer/taskComple',
-        method:'get'
+        method:'post'
     });
 };
+
 //获取任务分类
 export const getTaskCategorys = () => {
     return request({
@@ -69,8 +73,9 @@ export const getTaskCategorys = () => {
 
 //雇主所有任务
 export const getAllTasks = () => {
+   let publisher_id = localStorage.getItem('publisher-id');
     return request({
-        url:'./employer/myTasks',
+        url:'./employer/myTasks?employerId=' + publisher_id,
         method:'get'
     });
 };
@@ -84,18 +89,18 @@ export const getTaskInfo = (taskId) => {
 };
 
 //上传任务    注意参数
-export const submitTask = (skills,upload,task) => {
+export const submitTask = (skills,task) => {
     return request({
-        url:`./employer/task/post?skills=${skills}&upload=${upload}`,
+        url:`./employer/task/post?skills=${skills}`,
         method:'post',
         data: task
     });
 };
 
 //更新任务
-export const updateTask = (task,upload) => {
+export const updateTask = (task) => {
     return request({
-        url:`./employer/task/update?upload=${upload}`,
+        url:`./employer/task/update`,
         method:'post',
         data:task
     });
@@ -104,14 +109,14 @@ export const updateTask = (task,upload) => {
 export const deleteTask = (taskId) => {
     return request({
         url:`./employer/task/delete?taskId=${taskId}`,
-        method:'get'
+        method:'post'
     });
 };
 
 //选择雇员接收任务
-export const acceptBid = (taskId,employeeId) => {
+export const acceptBid = (employeeId,taskId) => {
     return request({
-        url:`./employer/acceptBid?taskId=${taskId}&&employeeId=${employeeId}`,
+        url:`./employer/acceptBid?employeeId=${employeeId}&&taskId=${taskId}`,
         method:'get'
     });
 };
@@ -124,7 +129,23 @@ export const taskSuccess = (taskId) => {
     });
 };
 
+//添加技能
+export const addSkill = (skillName) => {
+    return request({
+        url: './employer/skill/add',
+        method: 'post',
+        data: skillName
+    });
+};
 
+//删除技能
+export const deleteSkill = (skillId) => {
+    return request({
+        url: './employer/skill/delete',
+        method: 'post',
+        data: skillId
+    });
+};
 
 
 

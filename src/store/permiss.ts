@@ -31,6 +31,8 @@ export const usePermissStore = defineStore("permiss", {
 				"12",
 				"121",
 				"122",
+				'51',
+				'52',
 				"7"
 			],
 			performer: [
@@ -41,13 +43,12 @@ export const usePermissStore = defineStore("permiss", {
 				"221",
 				"222",
 				"223",
-<<<<<<< HEAD
-=======
 				"224",
->>>>>>> master
 				"23",
 				"231",
 				"232",
+				'51',
+				'52',
 				"7"
 			]
 		};
