@@ -3,9 +3,9 @@
     <h1>未完成任务</h1>
     <div class="bidding-list" >
       <div v-for="unDoTask in unDoTasks" :key="unDoTask.id" class="task-list-item"  v-if="status===1">
-        <h2 @click="goToTask(unDoTask.id)">{{ unDoTask.taskName }}</h2>
-        <p>我的出价: ¥{{ unDoTask.price }}</p>
-        <p>完成时间: {{ unDoTask.deliveryTime }}</p>
+        <h2 @click="goToTask(unDoTask.id)">{{ unDoTask.taskTitle }}</h2>
+        <p>我的出价: ¥{{ unDoTask.taskPrice }}</p>
+        <p>完成时间: {{ unDoTask.bidTime }}</p>
         <button @click="completeTask(unDoTask.id)">完成任务</button>
       </div>
       <div v-else>您没有未完成的任务！！</div>
@@ -37,16 +37,17 @@ export default {
           this.status = 0;
         }else{
           this.status = 1;
-          data.forEach(task=>{
-            //TODO
-            let undo={
-              id:task.id,
-              taskName:task.taskVo.taskTitle,
-              price:task.bidPrice,
-              deliveryTime:task.deliveryDesc
-            }
-            this.unDoTasks.push(undo);
-          })
+          // data.forEach(task=>{
+          //   let undo={
+          //     id:task.id,
+          //     taskName:task.taskVo.taskTitle,
+          //     price:task.bidPrice,
+          //     deliveryTime:task.deliveryDesc
+          //   }
+          //   console.log(this.unDoTasks);
+          //   this.unDoTasks.push(undo);
+          // })
+          this.unDoTasks = data;
         }
 
       })
@@ -54,7 +55,7 @@ export default {
     //跳转到任务界面
     goToTask(taskId){
       console.log('', taskId);
-      router.replace(`/task?id=${taskId}`);
+      router.replace(`/task/${taskId}`);
     },
     completeTask(taskId){
       submitTask(taskId).then(res=>{

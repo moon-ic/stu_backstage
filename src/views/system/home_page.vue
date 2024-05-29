@@ -1,29 +1,28 @@
 <template>
   <div class="user-profile">
-    <!-- ÓÃ»§Í·Ïñ -->
+    <!-- ç”¨æˆ·å¤´åƒ -->
     <div class="avatar">
       <img :src="user.headImg" :alt="user.username">
     </div>
 
-    <!-- ÓÃ»§»ù±¾ĞÅÏ¢ -->
+    <!-- ç”¨æˆ·åŸºæœ¬ä¿¡æ¯ -->
     <div class="user-info">
       <h1>{{ user.username }}</h1>
-      <p>µç×ÓÓÊ¼ş£º{{ user.email }}</p>
-      <p>µç»°ºÅÂë:{{ user.phone }}</p>
-      <p>¸öĞÔÇ©Ãû:{{ user.tagline }}</p>
-      <p>¼ò½é:{{ user.profile }}</p>
+      <p>ç”µå­é‚®ä»¶ï¼š{{ user.email }}</p>
+      <p>ç”µè¯å·ç :{{ user.phone }}</p>
+      <p>ä¸ªæ€§ç­¾å:{{ user.tagline }}</p>
+      <p>ç®€ä»‹:{{ user.profile }}</p>
       <div class="skills">
-        <h3>ÓµÓĞ¼¼ÄÜ</h3>
+        <h3>æ‹¥æœ‰æŠ€èƒ½</h3>
         <ul>
           <li v-for="skill in user.skills" :key="skill.id">{{ skill.skillName }}</li>
         </ul>
       </div>
-      <p>ä¯ÀÀ´ÎÊı:{{ user.browseCount }}</p>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {getAllInfo} from "@/api/performer";
 
 export default {
@@ -37,7 +36,6 @@ export default {
         tagline: '',
         profile: '',
         skills: [],
-        browseCount: 0,
       },
     };
   },
@@ -46,8 +44,8 @@ export default {
   },
   methods: {
     getAllInfo(){
-      //»ñÈ¡performerÖ÷Ò³ĞÅÏ¢
-      let performerId = this.$router.query.id;
+      //è·å–performerä¸»é¡µä¿¡æ¯
+      let performerId = this.$route.params.id
       getAllInfo(performerId).then(res=>{
         let data = res.data.data;
         console.log(res.data);
@@ -57,7 +55,6 @@ export default {
         this.user.tagline = data.tagline;
         this.user.profile = data.profile;
         this.user.skills = data.skills;
-        this.user.browseCount = data.browseCount;
       })
     }
   },

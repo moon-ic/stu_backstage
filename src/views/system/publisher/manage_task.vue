@@ -39,21 +39,21 @@
             <div v-if="task.taskStatus===1">
               <p>已接受投标</p>
               <p>发布时间：{{task.createTime}}</p>
-              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
-              <div>成交价格：￥{{task.bidPrice}}</div>
+              <el-button @click="browseBidders(task.employee.id)">浏览雇员信息</el-button>
+              <div>成交价格：￥{{task.taskPrice}}</div>
             </div>
             <div v-if="task.taskStatus===2">
               <p>已接受投标</p>
               <p>发布时间：{{task.createTime}}</p>
-              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
+              <el-button @click="browseBidders(task.employee.id)">浏览雇员信息</el-button>
               <el-button @click="taskCheck(task.id)">确认完成任务</el-button>
-              <div>成交价格：￥{{task.bidPrice}}</div>
+              <div>成交价格：￥{{task.taskPrice}}</div>
             </div>
             <div v-if="task.taskStatus===3">
               <p>已完成</p>
               <p>完成时间：{{task.createTime}}</p>
-              <el-button @click="browseBidders(task.id)">浏览雇员信息</el-button>
-              <div>成交价格：￥{{task.bidPrice}}</div>
+              <el-button @click="browseBidders(task.employee.id)">浏览雇员信息</el-button>
+              <div>成交价格：￥{{task.taskPrice}}</div>
             </div>
           </div>
         </li>
@@ -99,10 +99,9 @@ export default {
     //修改任务信息， 跳转到任务信息界面
     editTask(taskId) {
       // 修改任务
-      router.replace(`/publish_task/${taskId}`)
+      router.replace(`/change_task/${taskId}`)
       console.log('', taskId);
     },
-
     //删除任务
     deleteTask(taskId) {
       deleteTask(taskId).then(res=>{
@@ -114,13 +113,9 @@ export default {
     },
 
     //当已经成交的时候，发送这个请求//浏览雇员主页
-    browseBidders(taskId){
-      this.tasks.forEach(task => {
-        if(task.id === taskId){
-          let performerId = task.employee.id
-          router.push(`/performer?id=${performerId}`)
-        }
-      });
+    browseBidders(performerId){
+      console.log(performerId);
+      router.replace(`/performer/${performerId}`);
     },
     //确认完成任务
     taskCheck(taskId){

@@ -1,11 +1,10 @@
 <template>
   <div class="task-details">
-    <!-- ÈÎÎñÃû³ÆºÍ¼ò½é -->
+    <!-- ä»»åŠ¡åç§°å’Œç®€ä»‹ -->
     <h1>{{ task.title }}</h1>
     <p>{{ task.summary }}</p>
-    <p>{{task.category}}</p>
 
-    <!-- ·¢²¼ÕßĞÅÏ¢ -->
+    <!-- å‘å¸ƒè€…ä¿¡æ¯ -->
     <div class="publisher-info">
       <img :src="publisher.avatar" :alt="publisher.username">
       <span>{{ publisher.username }}</span>
@@ -13,73 +12,72 @@
       <span>{{ publisher.email}}</span>
     </div>
 
-    <!-- ÈÎÎñÔ¤ËãÇø¼ä -->
+    <!-- ä»»åŠ¡é¢„ç®—åŒºé—´ -->
     <div class="budget-range">
-      <span>×îµÍÔ¤Ëã: {{ task.minBudget }}</span>
-      <span>×î¸ßÔ¤Ëã: {{ task.maxBudget }}</span>
+      <span>æœ€ä½é¢„ç®—: {{ task.minBudget }}</span>
+      <span>æœ€é«˜é¢„ç®—: {{ task.maxBudget }}</span>
     </div>
-    =
-    <!-- ÈÎÎñÃèÊö -->
+    <!-- ä»»åŠ¡æè¿° -->
     <div class="task-description">
-      <p>{{ task.description }}</p>
+      <p>ä»»åŠ¡æè¿°ï¼š{{ task.description }}</p>
     </div>
 
-    <!-- ËùĞè¼¼ÄÜ -->
+    <!-- æ‰€éœ€æŠ€èƒ½ -->
     <div class="required-skills">
-      <h3>ËùĞè¼¼ÄÜ</h3>
+      <h3>æ‰€éœ€æŠ€èƒ½</h3>
       <ul>
-        <li v-for="skill in task.requiredSkills" :key="skill.skillId">{{ skill.skillName }}</li>
+        <li v-for="skill in task.requiredSkills" :key="skill.id">{{ skill.skillName }}</li>
       </ul>
     </div>
 
-    <!-- Í¶±êÇøÓò -->
+    <!-- æŠ•æ ‡åŒºåŸŸ -->
     <div class="bidding-area">
-      <h3>Í¶±ê</h3>
+      <h3>æŠ•æ ‡</h3>
       <div>
         <input type="number" v-model="bids.bidPrice" required>
-        <p>Ô¤¼ÆÍê³ÉÈÎÎñÊ±¼ä£º</p>
+        <p>é¢„è®¡å®Œæˆä»»åŠ¡æ—¶é—´ï¼š</p>
         <input type="number" v-model="bids.timeNumber" required>
         <select v-model="bids.timeType" required>
-          <option value="Ìì">ÇëÑ¡Ôñ·ÖÀà</option>
+          <option value="å¤©">è¯·é€‰æ‹©åˆ†ç±»</option>
           <option v-for="type in bids.timeType" :value="type">
             {{ type }}
           </option>
         </select>
-        <button @click="acceptBid">ÎÒÒª¾º±ê</button>
+        <button @click="acceptBid">æˆ‘è¦ç«æ ‡</button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {getTaskInfo} from "@/api/publisher";
 import {bid} from "@/api/performer";
 import {ElMessage} from "element-plus";
+import router from "@/router";
 
 export default {
   data() {
     return {
       task: {
         id:'',
-        title: 'ÈÎÎñÃû³Æ',
-        summary: 'ÈÎÎñ¼ò½é',
-        category:'ÈÎÎñ·ÖÀà',
+        title: 'ä»»åŠ¡åç§°',
+        summary: 'ä»»åŠ¡ç®€ä»‹',
         minBudget: 1000,
         maxBudget: 2000,
-        description: 'ÈÎÎñÃèÊö',
+        description: 'ä»»åŠ¡æè¿°',
         requiredSkills: [],
         bidPrice:0
       },
       publisher: {
-        username: '·¢²¼ÕßêÇ³Æ',
+        username: 'å‘å¸ƒè€…æ˜µç§°',
         avatar: 'avatar.png',
-        phone: 'µç»°ºÅÂë',
-        email:'ÓÊÏä'
+        phone: 'ç”µè¯å·ç ',
+        email:'é‚®ç®±'
       },
       bids:{
         bidPrice:0,
         timeNumber:0,
-        timeType:['·Ö','Ğ¡Ê±','Ìì','ÖÜ','ÔÂ']
+        timeType:['åˆ†','å°æ—¶','å¤©','å‘¨','æœˆ']
       },
       employeeId:'',
     };
@@ -93,13 +91,13 @@ export default {
       getTaskInfo(taskId).then(res=>{
         console.log(res.data);
         let data = res.data.data;
+        this.task.id = taskId;
         this.task.title = data.taskTitle;
         this.task.summary=data.taskProfile;
-        this.task.category = data.taskCategory.categoryName;
         this.task.minBudget = data.feesLow;
         this.task.maxBudget = data.feesHigh;
         this.task.description = data.taskDesc;
-        this.task.requiredSkills = data.skills.map(skill=>skill.skillName);
+        this.task.requiredSkills = data.skills;
         this.publisher.username = data.employer.username;
         this.publisher.phone = data.employer.phone;
         this.publisher.email = data.employer.email;
@@ -107,10 +105,17 @@ export default {
     },
     acceptBid() {
       bid(this.task.id,this.bids.bidPrice,this.bids.timeNumber,this.bids.timeType).then(res=>{
+        console.log(res.data);
         if(res.data.code === 0){
-          ElMessage.error(res.data.data);
+          ElMessage.error(res.data.msg);
+          setTimeout(() => {
+            router.replace('/choose_task');
+          }, 2000);
         }else{
-          ElMessage.success("¾º±ê³É¹¦");
+          ElMessage.success("ç«æ ‡æˆåŠŸ");
+          setTimeout(() => {
+            router.replace('/choose_task');
+          }, 2000);
         }
       })
     },
@@ -139,7 +144,3 @@ export default {
   margin-top: 10px;
 }
 </style>
-
-<script setup lang="ts">
-import {Select} from "@element-plus/icons-vue";
-</script>

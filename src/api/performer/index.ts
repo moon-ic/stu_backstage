@@ -102,8 +102,8 @@ export const deleteBid = (bid) => {
     });
 };
 //获取个人信息页面的信息
-export const getAllInfo = () => {
-    let performer_id = localStorage.getItem('performer-id');
+export const getAllInfo = (performer_id) => {
+    // let performer_id = localStorage.getItem('performer-id');
     return request({
         url: './employee/settings/base?employeeId=' + performer_id,
         method: 'get'
@@ -177,15 +177,10 @@ export const deleteSkill = (skillId) => {
 
 //performer投标任务
 export const bid = (taskId,bidPrice,timeNumber,timeType) => {
+    let employeeId = localStorage.getItem("performer-id")
     return request({
-        url: './employee/bid',
-        method: 'post',
-        data:{
-            taskId,
-            bidPrice,
-            timeNumber,
-            timeType
-        }
+        url: './employee/bid?employeeId='+ employeeId+ '&taskId='+ taskId+'&bidPrice='+bidPrice+'&timeNumber=' + timeNumber + '&timeType=' + timeType,
+        method: 'get',
     });
 };
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 发布任务标题 -->
-    <h2>发布任务</h2>
+    <h2>修改任务</h2>
 
     <!-- 任务表单 -->
     <form @submit.prevent="submitTask">
@@ -69,10 +69,27 @@ export default {
       categories:[],
     };
   },
-  created() {
+  mounted() {
     this.getTaskCategories();
+    this.getTaskInfo();
   },
   methods: {
+    //如果是更改信息就要先获取所有值
+    getTaskInfo() {
+        let taskId = this.$router.params.id;
+         console.log(taskId)
+        getTaskInfo(taskId).then(res => {
+          console.log(res.data);
+          let data = res.data.data
+          this.task.name = data.taskTitle;
+          this.task.category = data.taskCategory.categoryName;
+          this.task.summary = data.taskProfile;
+          this.task.minBudget = data.feesLow;
+          this.task.maxBudget = data.feesHigh;
+          this.task.skills = data.skills.map(skill => skill.skillName)
+          this.task.description = data.taskDesc;
+        });
+    },
     //获取到所有任务分类
     getTaskCategories() {
       getTaskCategorys().then(res => {
@@ -83,6 +100,7 @@ export default {
         }
       })
     },
+
     submitTask() {
       let taskId = this.$router.params.id
       // 在这里执行提交任务的操作，可以发送请求到服务器
