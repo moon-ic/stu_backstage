@@ -90,6 +90,7 @@ export default {
   }
   .li-task{
     padding:10px 0 10px 20px;
+    line-height: 30px;
     border-bottom: 1px solid #b8c0ca;
     .left{
       display: inline-block;
@@ -115,7 +116,7 @@ export default {
       float:right;
       border: none;
       border-radius: 10px;
-      text-align: center;
+      margin-top: 10px;
       margin-right: 40px;
     }
   }

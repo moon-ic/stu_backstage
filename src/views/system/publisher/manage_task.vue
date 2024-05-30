@@ -4,7 +4,7 @@
     <h2>我的任务</h2>
     <div class="grid">
       <h3>
-        <el-icon><Collection /></el-icon>
+        <el-icon><Collection style="color:#007BFF"/></el-icon>
         我发布的任务
       </h3>
       <div v-if="tasks.length > 0">
@@ -177,12 +177,16 @@ ul{
   .li-task{
     padding:10px 0 10px 20px;
     border-bottom: 1px solid #b8c0ca;
+    p{
+      line-height: 30px;
+    }
   }
   .li-task:last-child{
     border-bottom:none;
   }
   .price{
     padding: 10px;
+    color: #565759;
     float: right;
     margin-right: 30px;
     background-color: #ebedef;
@@ -192,15 +196,17 @@ ul{
   h4{
     display: inline-block;
   }
-  .status{
-    display: inline-block;
-    padding: 2px 6px;
-    background-color: #fff;
-    font-size: 12px;
-    border: 1px solid #2d8cf0;
-    color: #2d8cf0;
-    margin-left: 10px;
-  }
+
+}
+.grid .li-task .status{
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #fff;
+  font-size: 12px;
+  line-height: 18px;
+  border: 1px solid #2d8cf0;
+  color: #2d8cf0;
+  margin-left: 10px;
 }
 
 </style>

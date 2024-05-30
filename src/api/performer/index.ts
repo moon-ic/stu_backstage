@@ -100,8 +100,8 @@ export const deleteBid = (bid) => {
     });
 };
 //获取个人信息页面的信息
-export const getAllInfo = (performer_id) => {
-    // let performer_id = localStorage.getItem('performer-id');
+export const getAllInfo = () => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
         url: './employee/settings/base?employeeId=' + performer_id,
         method: 'get'

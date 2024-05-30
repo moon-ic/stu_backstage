@@ -147,7 +147,7 @@ export default {
     margin-bottom: 15px;
   }
   width: 85%;
-  height: 470px;
+  height: 490px;
   margin: 50px auto;
   padding: 10px 20px;
   border-radius: 15px;

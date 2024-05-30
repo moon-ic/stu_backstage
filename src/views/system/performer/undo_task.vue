@@ -116,6 +116,7 @@ export default {
     font-size: 22px;
   }
   .li-task{
+    line-height: 30px;
     padding:10px 0 10px 20px;
     border-bottom: 1px solid #b8c0ca;
     .left{
@@ -144,7 +145,7 @@ export default {
       line-height: 40px;
       text-align: center;
       margin-right: 40px;
-      margin-top: 10px;
+      margin-top: 20px;
     }
   }
   .li-task:last-child{

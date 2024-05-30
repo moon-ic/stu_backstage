@@ -78,7 +78,6 @@ export default {
   border-radius: 15px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   h3{
     border-bottom: 1px solid #8c939d;
     line-height: 50px;
@@ -90,13 +89,14 @@ export default {
     border-bottom: 1px solid #b8c0ca;
     .left{
       display: inline-block;
+      line-height: 30px;
       p{
         display: inline-block;
         color: #515355;
       }
       .title{
         display: block;
-        color: #252222;
+        color: #100f0f;
         font-size: 18px;
       }
       .time{
@@ -111,6 +111,7 @@ export default {
       text-align: center;
       line-height: 50px;
       font-size: 18px;
+      margin-top: 5px;
       margin-right: 40px;
       border: 1px solid #2d8cf0;
       border-radius: 8px;

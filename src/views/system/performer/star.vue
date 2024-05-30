@@ -17,12 +17,12 @@
                  <el-icon><Clock /></el-icon>
                  {{task.taskVo.beforeTime}}
                </span>
-               <span style="margin-top: 10px">预算: ￥{{ task.taskVo.feesLow }} —￥{{ task.taskVo.feesHigh }}</span>
+               <span>预算: ￥{{ task.taskVo.feesLow }} —￥{{ task.taskVo.feesHigh }}</span>
              </div>
              <div class="right">
                <div v-if="task.status===3" class="status">任务已完成</div>
                <div v-else class="status">任务未完成</div>
-               <el-icon @click="unfavoriteTask(task.taskVo.id)" class="icon"><DeleteFilled color="red" /></el-icon>
+               <el-icon @click="unfavoriteTask(task.taskVo.id)" class="icon"><DeleteFilled color="#2d8cf0"/></el-icon>
              </div>
            </li>
          </ul>
@@ -103,6 +103,7 @@ ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .li-task{
+  line-height: 30px;
   border-bottom: 1px solid #d7d9dd;
   padding: 15px;
 }
@@ -122,14 +123,21 @@ span {
 .right{
   line-height: 50px;
   display: block;
+  margin-top: 10px;
   float: right;
   .status{
-    font-size: 16px;
-    color: #007bff;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    padding: 5px 10px;
+    color: #007BFF;
+    background-color: white;
+    border: 1px solid #007BFF;
   };
   .icon{
-    font-size: 20px;
+    font-size: 30px;
     margin-left: 30px;
+    margin-top: 20px;
   }
 }
 </style>

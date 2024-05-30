@@ -89,7 +89,7 @@ const routes: RouteRecordRaw[] = [
 					title: "发布者系统首页",
 					noAuth: true
 				},
-				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
+				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard1.vue")
 			},
 			
 			{
@@ -165,7 +165,7 @@ const routes: RouteRecordRaw[] = [
 					title: "执行者系统首页",
 					noAuth: true
 				},
-				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard.vue")
+				component: () => import(/* webpackChunkName: "dashboard" */ "../views/dashboard1.vue")
 			},
 			{
 				path: "/mystar",

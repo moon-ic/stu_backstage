@@ -82,7 +82,7 @@ export const menuData: Menus[] = [
 		id: "11",
 		title: "任务",
 		index: "2-1",
-		icon: "HomeFilled",
+		icon: "Collection",
 		children: [
 			{
 				id: "111",
@@ -130,13 +130,13 @@ export const menuData: Menus[] = [
 		id: "21",
 		title: "我的收藏",
 		index: "/mystar",
-		icon: "HomeFilled",
+		icon: "StarFilled",
 	},
 	{
 		id: "22",
 		title: "任务",
 		index: "3-2",
-		icon: "HomeFilled",
+		icon: "Collection",
 		children: [
 			{
 				id: "224",

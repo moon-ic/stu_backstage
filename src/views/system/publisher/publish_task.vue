@@ -143,6 +143,9 @@ export default {
   height: 470px;
   margin: 50px auto;
   padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   .taskName,
   .taskCategory
@@ -172,14 +175,11 @@ export default {
   {
     display: block;
     width: 100%;
-    label{
-      display: block;
-    }
   }
   .taskPro{
     textarea{
       height: 40px;
-      width: 95%;
+      width: 92%;
     }
   }
   .min,
@@ -187,10 +187,7 @@ export default {
     display:block;
     width: 20%;
     float: left;
-    margin-right: 20px;
-    label{
-      display: block;
-    }
+    margin-right: 25px;
     input{
       width: 100%;
       height: 30px;
@@ -198,26 +195,28 @@ export default {
   }
   .taskSkills{
     input{
-      width: 51%;
+      width: 47%;
       height: 30px;
     }
   }
   .taskDesc{
-    width: 96%;
+    width: 92%;
     height: 100px;
     textarea{
-    height:100px;
-    width: 100%;
-  }
+      height:100px;
+      width: 100%;
+    }
   }
 }
 input,
 textarea,
 select
 {
-  border: 1px solid #d7d8da;
   margin-top: 10px;
   margin-bottom: 10px;
+  border: 1px solid #ccc; /* 输入框边框 */
+  border-radius: 4px;
+  padding: 2px 10px;
 }
 
 .btn{

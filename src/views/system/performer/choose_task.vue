@@ -2,7 +2,7 @@
   <div class="grid">
      <div class="filter">
        <h2>
-         <el-icon><Filter /></el-icon>
+         <el-icon><Filter style="color:#007BFF"/></el-icon>
          任务筛选
        </h2>
        <div>
@@ -18,7 +18,7 @@
      </div>
 
     <h2 style="margin-left: 20px">
-      <el-icon><SuitcaseLine /></el-icon>
+      <el-icon><SuitcaseLine style="color:#007BFF"/></el-icon>
       任务列表
     </h2>
     <ul>
@@ -159,6 +159,9 @@ ul {
 .filter{
   padding: 15px;
   border-bottom: 1px solid #8c939d;
+  div{
+    margin-left: 30px;
+  }
   h2{
     margin-bottom: 10px;
   }

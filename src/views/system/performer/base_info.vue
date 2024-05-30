@@ -14,7 +14,7 @@
         <!-- 用户名 -->
         <div class="form">
           <div class="form-group">
-            <label for="username">用户名&nbsp;&nbsp;</label>
+            <label for="username">用户名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <input type="text" v-model="user.username" id="username" required>
           </div>
 
@@ -121,7 +121,6 @@ ul{
   height: 230px;
   border-radius: 10px;
   background-color: #ffffff;
-  //box-shadow: -3px 4px 5px #949898;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   h3{
@@ -160,9 +159,12 @@ ul{
         margin-right: 10px;
       }
       input{
+        padding: 2px 10px;
         width: 400px;
         margin-top: 20px;
         height:30px;
+        border: 1px solid #ccc; /* 输入框边框 */
+        border-radius: 4px;
       }
     }
   }
@@ -172,7 +174,7 @@ ul{
   margin: auto;
   border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: -3px 4px 5px #949898;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   h3{
     line-height: 60px;
@@ -183,7 +185,7 @@ ul{
     .skills
     {
       padding: 10px;
-      border-bottom: 1px solid #8c939d;
+      border-bottom: 1px solid #ccc;
       label{
         display: block;
         line-height: 30px;
@@ -195,23 +197,18 @@ ul{
         display: block;
         width: 90%;
         height:30px;
+        border: 1px solid #ccc; /* 输入框边框 */
+        border-radius: 4px;
       }
       textarea{
         width: 92%;
+        padding: 10px 15px;
         height: 100px;
         margin-left: 45px;
+        border: 1px solid #ccc; /* 输入框边框 */
+        border-radius: 4px;
       }
     }
   }
 }
-input,
-textarea
-{
-  border:1px solid #dfe1e4;
-}
-
-
-
-
-
 </style>

@@ -111,6 +111,7 @@ const submitForm = (formEl: FormInstance | undefined, param: { username: string,
             res = await login_publisher(param.username, param.password);
             console.log(res.data)
             localStorage.setItem('publisher-id', res.data.data);
+            localStorage.setItem('user_status',"1");
             ElMessage.success('登录成功');
             const keys1 = permiss.defaultList['publisher'];
             permiss.handleSet(keys1);
@@ -121,6 +122,7 @@ const submitForm = (formEl: FormInstance | undefined, param: { username: string,
             res = await login_performer(param.username, param.password);
             console.log(res.data)
             localStorage.setItem('performer-id', res.data.data);
+            localStorage.setItem('user_status',"2");
             ElMessage.success('登录成功');
             const keys2 = permiss.defaultList['performer'];
             permiss.handleSet(keys2);
