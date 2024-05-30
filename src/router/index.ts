@@ -112,6 +112,15 @@ const routes: RouteRecordRaw[] = [
 			},
 
 			{
+				path:"/change_task/:id",
+				name:"change_task",
+				meta:{
+					title:"修改任务",
+					noAuth:true
+				},
+				component:() => import(/* webpackChunkName: "dashboard" */"../views/system/publisher/change_task.vue"),
+			},
+			{
 				path: "/publisher_info",
 				name: "publisher_info",
 				meta: {
