@@ -62,9 +62,10 @@
                                 {{ item.formatter(row[item.prop]) }}
                             </span>
                             <span v-else>
-                                {{ (item.prop==='taskStatus')? statusType[row[item.prop]+'']:(item.prop!=='employer'&&item.prop!=='taskCategory')?row[item.prop]:null }}
+                                {{ (item.prop==='taskStatus')? statusType[row[item.prop]+'']:(item.prop!=='employer'||'taskCategory'||'createTime'||'bidTime')?row[item.prop]:null }}
                                 {{ item.prop==='employer'? row[item.prop].username:null }}
                                 {{ (item.prop==='taskCategory')?row[item.prop]?.categoryName:null }}
+                                {{ (item.prop==='createTime'||'bidTime')?formatDate(row[item.prop]):row[item.prop] }}
                             </span>
                         </slot>
                     </template>
@@ -85,6 +86,22 @@ const statusType={
     '2':'已完成，待验收',
     '3':'已验收'
 }
+
+const formatDate = (dateString: string): string => {
+	const date = new Date(dateString);
+	const options: Intl.DateTimeFormatOptions = {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false
+	};
+	return date.toLocaleString("zh-CN", options).replace(/\//g, "-").replace(",", "");
+};
+
+
 
 const props = defineProps({
     // 表格相关
