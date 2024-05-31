@@ -4,7 +4,7 @@ import request from '../../utils/request';
 export const logout = () => {
     return request({
         url: './employee/logout',
-        method: 'get'
+        method: 'post'
     });
 };
 
@@ -12,7 +12,7 @@ export const logout = () => {
 export const getSelfInfo = () => {
     return request({
         url: './employee/getInfo',
-        method: 'get'
+        method: 'post'
     });
 };
 
@@ -21,80 +21,88 @@ export const getSelfInfo = () => {
 export const gteBidCount = () => {
     return request({
         url: './employee/BidCount',
-        method: 'get'
+        method: 'post'
     });
 };
 
 //收藏或取消任务
 export const star = (taskId) => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/bookmarked',
-        method: 'post',
-        data: taskId
+        url: './employee/bookmarked?employeeId=' + performer_id + '&taskId=' + taskId,
+        method: 'get',
     });
 };
 
 //全部收藏任务
 export const starTasks = () => {
+    let performer_id = localStorage.getItem('performer-id');
+    console.log(performer_id)
     return request({
-        url: './employee/bookmarked',
-        method: 'get'
+        url: './employee/bookmarks?employeeId=' + performer_id,
+        method: 'get',
     });
 };
 
 //删除收藏任务
 export const deleteStarTasks = (taskId) => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/bookmarks/remove',
-        method: 'post',
-        data: taskId
+        url: `./employee/bookmarks/remove?employeeId=${performer_id}&&taskId=${taskId} `,
+        method: 'get',
     });
 };
 
 //查询已完成任务
 export const completedTask = () => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/task/completed',
+        url: './employee/task/completed?employeeId=' + performer_id,
         method: 'get',
     });
 };
 
 //查询未完成任务
 export const unCompletedTask = () => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/task/uncompleted',
+        url: './employee/task/uncompleted?employeeId=' + performer_id,
         method: 'get',
     });
 };
 
 //performer提交任务
 export const submitTask = (taskId) => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/task/submit',
-        method: 'post',
-        data:taskId
+        url: `./employee/task/submit?employeeId=${performer_id}&&taskId=${taskId}`,
+        method: 'get'
     });
 };
 
 
 //我的竞标
 export const myBids = () => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: './employee/mybids',
+        url: './employee/mybids?employeeId=' + performer_id,
         method: 'get'
     });
 };
 
+
+//删除竞标
 export const deleteBid = (bid) => {
     return request({
-        url: `./employee/mybids?bid=${bid}`,
+        url: `./employee/bid/delete?bid=${bid}`,
         method: 'get'
     });
 };
 //获取个人信息页面的信息
 export const getAllInfo = () => {
+    let performer_id = localStorage.getItem('performer-id');
     return request({
-        url: 'http://localhost:8080/employee/settings/base',
+        url: './employee/settings/base?employeeId=' + performer_id,
         method: 'get'
     });
 };
@@ -111,12 +119,8 @@ export const saveAllInfo = (employee) => {
 //修改密码
 export const updatePwd = (password,newPassword) => {
     return request({
-        url: './employee/settings/password',
-        method: 'post',
-        data:{
-            password,
-            newPassword
-        }
+        url: `./employee/settings/password?password=${password}&&newPassword=${newPassword}`,
+        method: 'get'
     });
 };
 
@@ -125,6 +129,7 @@ export const updatePwd = (password,newPassword) => {
 //对其他执行者的
 
 //获取执行者信息
+//可忽略
 export const getPerformerInfo = (employeeId) => {
     return request({
         url: './employee/employeeProfile?employeeId=' + employeeId,
@@ -160,7 +165,7 @@ export const addSkill = (skillName) => {
 //删除技能
 export const deleteSkill = (skillId) => {
     return request({
-        url: './employee/skill/add',
+        url: './employee/skill/delete',
         method: 'post',
         data: skillId
     });
@@ -169,18 +174,20 @@ export const deleteSkill = (skillId) => {
 
 //performer投标任务
 export const bid = (taskId,bidPrice,timeNumber,timeType) => {
+    let employeeId = localStorage.getItem("performer-id")
     return request({
-        url: './employee/skill/add',
-        method: 'post',
-        data:{
-            taskId,
-            bidPrice,
-            timeNumber,
-            timeType
-        }
+        url: './employee/bid?employeeId='+ employeeId+ '&taskId='+ taskId+'&bidPrice='+bidPrice+'&timeNumber=' + timeNumber + '&timeType=' + timeType,
+        method: 'get',
     });
 };
 
+//获取任务分页结果
+export const getTaskPageResult = (categoryId, key, page) => {
+	return request({
+		url: `./task/PageResult?categoryId=${categoryId}&&key=${key}&&page=${page}`,
+		method: "get"
+	});
+};
 
 
 

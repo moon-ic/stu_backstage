@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { BASE_URL } from "@/config";
 
+axios.defaults.withCredentials=true;
+
 const service: AxiosInstance = axios.create({
 	baseURL: BASE_URL,
 	timeout: 50000
