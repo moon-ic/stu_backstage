@@ -6,6 +6,9 @@ const service: AxiosInstance = axios.create({
 	timeout: 50000
 });
 
+service.defaults.withCredentials = true;
+// 自动储存cookie
+
 service.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
 		return config;

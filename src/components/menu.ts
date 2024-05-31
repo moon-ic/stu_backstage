@@ -3,12 +3,6 @@ import { Menus } from "@/types/menu";
 export const menuData: Menus[] = [
 	// 1.admin
 	{
-		id: "00",
-		title: "首页",
-		index: "/dashboard0",
-		icon: "Odometer"
-	},
-	{
 		id: "01",
 		title: "任务分类管理",
 		index: "1-1",
@@ -109,12 +103,6 @@ export const menuData: Menus[] = [
 				pid: "2",
 				index: "/publisher_info",
 				title: "基本信息"
-			},
-			{
-				id: "122",
-				pid: "2",
-				index: "/publisher_pwd",
-				title: "修改密码"
 			}
 		]
 	},
@@ -130,7 +118,7 @@ export const menuData: Menus[] = [
 		id: "21",
 		title: "我的收藏",
 		index: "/mystar",
-		icon: "HomeFilled",
+		icon: "HomeFilled"
 	},
 	{
 		id: "22",
@@ -161,7 +149,7 @@ export const menuData: Menus[] = [
 				pid: "1",
 				index: "/bid_task",
 				title: "我的竞标"
-			},
+			}
 		]
 	},
 	{
@@ -183,13 +171,5 @@ export const menuData: Menus[] = [
 				title: "修改密码"
 			}
 		]
-	},
-
-	//else
-	{
-		id: "7",
-		icon: "Brush",
-		index: "/theme",
-		title: "主题"
 	}
 ];

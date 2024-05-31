@@ -7,6 +7,11 @@ export const login_admin = async (username, password): Promise<adminRes> => {
 	return res.data;
 };
 
+export const logout_admin = async (): Promise<string> => {
+	const res = await request.post("/admin/logout");
+	return res.data;
+};
+
 export const login = (accountType, username, password) => {
 	return request({
 		url: "./login",

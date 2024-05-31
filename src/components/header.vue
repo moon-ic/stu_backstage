@@ -27,7 +27,6 @@
                     </span>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item command="user">个人中心</el-dropdown-item>
                             <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -41,6 +40,7 @@ import { onMounted } from 'vue';
 import { useSidebarStore } from '../store/sidebar';
 import { useRouter } from 'vue-router';
 import imgurl from '../assets/img/img.jpg';
+import { logout_admin } from '@/api';
 
 const username: string | null = localStorage.getItem('vuems_name');
 const message: number = 2;
@@ -61,6 +61,7 @@ onMounted(() => {
 const router = useRouter();
 const handleCommand = (command: string) => {
     if (command == 'loginout') {
+        logout_admin();
         localStorage.removeItem('vuems_name');
         router.push('/login');
     } else if (command == 'user') {

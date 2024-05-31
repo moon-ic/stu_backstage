@@ -40,16 +40,12 @@
             <template v-for="item in columns" :key="item.prop">
                 <el-table-column v-if="item.visible" :prop="item.prop" :label="item.label" :width="item.width"
                     :type="item.type" :align="item.align || 'center'">
-
                     <template #default="{ row, column, $index }" v-if="item.type === 'index'">
                         {{ getIndex($index) }}
                     </template>
                     <template #default="{ row, column, $index }" v-if="!item.type">
                         <slot :name="item.prop" :rows="row" :index="$index">
                             <template v-if="item.prop == 'operator'">
-                                <el-button type="warning" size="small" :icon="View" @click="viewFunc(row)">
-                                    查看
-                                </el-button>
                                 <el-button type="primary" size="small" :icon="Edit" @click="editFunc(row)">
                                     编辑
                                 </el-button>
@@ -57,11 +53,18 @@
                                     删除
                                 </el-button>
                             </template>
+                             <template v-if="item.prop == 'operator1'">
+                                 <el-button type="primary" size="small" :icon="Edit" @click="editFunc(row)">
+                                    修改状态
+                                </el-button>
+                            </template>
                             <span v-else-if="item.formatter">
                                 {{ item.formatter(row[item.prop]) }}
                             </span>
                             <span v-else>
-                                {{ row[item.prop] }}
+                                {{ (item.prop==='taskStatus')? statusType[row[item.prop]+'']:(item.prop!=='employer'&&item.prop!=='taskCategory')?row[item.prop]:null }}
+                                {{ item.prop==='employer'? row[item.prop].username:null }}
+                                {{ (item.prop==='taskCategory')?row[item.prop]?.categoryName:null }}
                             </span>
                         </slot>
                     </template>
@@ -77,6 +80,13 @@
 import { toRefs, PropType, ref } from 'vue'
 import { Delete, Edit, View, Refresh } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
+const statusType={
+    '-1':'待审核',
+    '0':'已审核，待接受',
+    '1':'已接受，待完成',
+    '2':'已完成，待验收',
+    '3':'已验收'
+}
 
 const props = defineProps({
     // 表格相关
