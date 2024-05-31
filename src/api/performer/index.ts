@@ -1,5 +1,4 @@
 import request from '../../utils/request';
-import qs from "qs";
 
 //¹ÍÔ±ÍË³ö
 export const logout = () => {

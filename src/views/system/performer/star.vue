@@ -34,10 +34,10 @@
 import {deleteStarTasks, starTasks} from "@/api/performer";
 import {ElMessage} from "element-plus";
 import router from "@/router";
-import {Clock, SuitcaseLine, UserFilled} from "@element-plus/icons-vue";
+import {Clock, DeleteFilled, SuitcaseLine, UserFilled} from "@element-plus/icons-vue";
 
 export default {
-  components: {Clock, UserFilled, SuitcaseLine},
+  components: {DeleteFilled, Clock, UserFilled, SuitcaseLine},
   data() {
     return {
       tasks:[]

@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import {addSkill, deleteSkill, getTaskCategorys,  submitTask, updateTask} from "@/api/publisher";
+import {getTaskCategorys,  submitTask} from "@/api/publisher";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {DocumentAdd} from "@element-plus/icons-vue";

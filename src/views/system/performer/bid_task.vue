@@ -28,10 +28,10 @@
 import {deleteBid, myBids} from "@/api/performer";
 import {ElMessage} from "element-plus";
 import router from "@/router";
-import {List} from "@element-plus/icons-vue";
+import {Clock, List} from "@element-plus/icons-vue";
 
 export default {
-  components: {List},
+  components: {Clock, List},
   data() {
     return {
       bids: [],

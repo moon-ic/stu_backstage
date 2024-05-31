@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {addSkill, deleteSkill, getTaskCategorys, getTaskInfo, submitTask, updateTask} from "@/api/publisher";
+import {addSkill, deleteSkill, getTaskCategorys, getTaskInfo, updateTask} from "@/api/publisher";
 import {ElMessage} from "element-plus";
 import router from "@/router";
 import {DocumentAdd} from "@element-plus/icons-vue";

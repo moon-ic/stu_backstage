@@ -55,7 +55,8 @@ import { usePermissStore } from '@/store/permiss';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import type { FormInstance, FormRules } from 'element-plus';
-import {login_admin, login_performer, login_publisher} from '@/api';
+import {login_performer, login_publisher} from '@/api';
+import {Lock} from "@element-plus/icons-vue";
 
 interface LoginInfo {
   username: string;
@@ -180,27 +181,10 @@ tabs.clearTabs();
   box-sizing: border-box;
 }
 
-.pwd-tips {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  margin: -10px 0 10px;
-  color: #787878;
-}
-
-.pwd-checkbox {
-  height: auto;
-}
 
 .login-btn {
   display: block;
   width: 100%;
-}
-
-.login-tips {
-  font-size: 12px;
-  color: #999;
 }
 
 .login-text {

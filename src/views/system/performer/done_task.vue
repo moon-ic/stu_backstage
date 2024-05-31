@@ -28,7 +28,6 @@
 
 <script>
 import {completedTask} from "@/api/performer";
-import {ElMessage} from "element-plus";
 import router from "@/router";
 import {Clock, List} from "@element-plus/icons-vue";
 
